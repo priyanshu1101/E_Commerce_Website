@@ -2,8 +2,9 @@ import mongoose from "mongoose";
 import validator from "validator";
 import bcyrpt from "bcrypt";
 import jwt from "jsonwebtoken";
+import Crypto from 'crypto';
 
-const userSchema =new mongoose.Schema({
+const userSchema = new mongoose.Schema({
     name: {
         type: String,
         required: [true, "Please Enter Your Name"],
@@ -40,7 +41,8 @@ const userSchema =new mongoose.Schema({
     resetPasswordExpire: Date,
 })
 
-userSchema.pre("save", async function (next) {        // To HASH the password
+// To HASH the password (if changed if not changed then save as it is) before the user is saved
+userSchema.pre("save", async function (next) {        
     if (!this.isModified("password")) // Here this keyword allow us to access the data passed.
     {
         next();
@@ -53,10 +55,25 @@ userSchema.methods.getJWTToken = function () {      //To create JWT for user log
 }
 
 // Compare Password
-userSchema.methods.comparePasswords = function(password){
-    return bcyrpt.compare(password,this.password);
+userSchema.methods.comparePasswords = function (password) {
+    return bcyrpt.compare(password, this.password);
 }
 
+// Generating reset password token
+userSchema.methods.getResetPasswordToken = function () {
+    // Generating Token
+    const resetToken = Crypto.randomBytes(20).toString("hex");
+
+    // Hashing and adding resetPasswordToken to userSchema
+    this.resetPasswordToken = Crypto
+        .createHash('sha256')
+        .update(resetToken)
+        .digest("hex")
+
+    // Setting time for the token to expire (15 mins)
+    this.resetPasswordExpire = Date.now() + 15 * 60 * 1000;
+    return resetToken;
+}
 
 const User = mongoose.model("User", userSchema);
 

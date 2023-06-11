@@ -1,9 +1,10 @@
 import express from "express";
 import dotenv from "dotenv";
-import productRoutes from "./routes/productRoutes.js";
 import cookieParser from "cookie-parser";
-import userRoutes from "./routes/userRouters.js";
 import mongoose from "mongoose";
+import productRoutes from "./routes/productRoutes.js";
+import userRoutes from "./routes/userRouters.js";
+import orderRoutes from "./routes/orderRoutes.js";
 dotenv.config();
 
 const app = express();
@@ -12,6 +13,7 @@ app.use(cookieParser());
 
 app.use('/users',userRoutes);
 app.use('/products',productRoutes);
+app.use('/orders',orderRoutes)
 
 const PORT = process.env.PORT;
 const CONNECTION_URL = process.env.CONNECTION_URL;
