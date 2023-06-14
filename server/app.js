@@ -5,12 +5,13 @@ import mongoose from "mongoose";
 import productRoutes from "./routes/productRoutes.js";
 import userRoutes from "./routes/userRouters.js";
 import orderRoutes from "./routes/orderRoutes.js";
+import cors from 'cors';
 dotenv.config();
 
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
-
+app.use(cors())
 app.use('/users',userRoutes);
 app.use('/products',productRoutes);
 app.use('/orders',orderRoutes)
