@@ -12,7 +12,7 @@ router.route('/admin/:id')
     .put(isAuthenticatedUser, authrizeRole(['admin']), updateProduct)
     .delete(isAuthenticatedUser, authrizeRole(['admin']), deleteProduct);
 
-router.route('/admin/:id')
+router.route('/:id')
     .get(getProductDetails)
 
 router.put('/review', isAuthenticatedUser, createProductReview);

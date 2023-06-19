@@ -1,25 +1,23 @@
 import React, { useEffect } from 'react'
 import Product from './Product';
 import { CgMouse } from "react-icons/cg";
-import "./Home.css"
 import MetaData from '../../MetaData';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProducts } from '../../actions/productAction';
 import { Audio } from 'react-loader-spinner';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import "./Home.css"
 
 const Home = () => {
     const dispatch = useDispatch();
-    const { loading, error, products, productsCount } = useSelector((state) => state.productReducer)
-
+    const { loading, error, products } = useSelector((state) => state.products)
     useEffect(() => {
-        if(error)
-        {
+        if (error) {
             return toast.error(error);
         }
         dispatch(getProducts());
-    }, [dispatch,error]);
+    }, [dispatch, error]);
 
     return (
         <>

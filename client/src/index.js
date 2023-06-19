@@ -7,11 +7,11 @@ import thunk from 'redux-thunk';
 import axios from "axios";
 
 
-axios.defaults.baseURL=`${process.env.REACT_APP_BASE_URL}`;
+axios.defaults.baseURL = `${process.env.REACT_APP_BASE_URL}`;
 
-const store = configureStore({ reducer: reducers }, compose(applyMiddleware(thunk)));
+const store = configureStore({ reducer: reducers }, {}, compose(applyMiddleware(thunk)));
 
 createRoot(document.getElementById('root')).render(
-<Provider store={store}>
-    <App />
-</Provider>);
+    <Provider store={store}>
+        <App />
+    </Provider>);

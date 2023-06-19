@@ -6,9 +6,15 @@ export const createProduct = async (req, res, next) => {
     try {
         req.body.createdBy = req.user._id;
         const product = await Product.create(req.body);
-        res.status(201).json({ success: true, product })
+        res.status(201).json({
+            success: true,
+            product
+        })
     } catch (error) {
-        res.status(400).json({ success: false, message: error.message });
+        res.status(400).json({
+            success: false,
+            message: error.message
+        });
     }
 }
 // Get All Products
@@ -18,9 +24,16 @@ export const getAllProducts = async (req, res) => {
         const productCount = await Product.countDocuments();
         const apiFeature = new ApiFeatures(Product.find(), req.query).search().filter().pagination(resultPerPage);
         const Products = await apiFeature.query;
-        res.status(200).json({ success: true, Products, productCount });
+        res.status(200).json({
+            success: true,
+            Products,
+            productCount
+        });
     } catch (error) {
-        res.status(400).json({ success: false, message: error.message });
+        res.status(400).json({
+            success: false,
+            message: error.message
+        });
     }
 }
 
@@ -34,9 +47,15 @@ export const getProductDetails = async (req, res, next) => {
                 message: "Product not found"
             })
         }
-        res.status(200).json({ success: true, product });
+        res.status(200).json({
+            success: true,
+            product
+        });
     } catch (error) {
-        res.status(400).json({ success: false, message: error.message });
+        res.status(400).json({
+            success: false,
+            message: error.message
+        });
 
     }
 }
@@ -51,10 +70,20 @@ export const updateProduct = async (req, res, next) => {
                 message: "Product not found"
             })
         }
-        const updatedProduct = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true, useFindAndModify: false });
-        res.status(200).json({ success: true, updatedProduct });
+        const updatedProduct = await Product.findByIdAndUpdate(req.params.id, req.body, {
+            new: true,
+            runValidators: true,
+            useFindAndModify: false
+        });
+        res.status(200).json({
+            success: true,
+            updatedProduct
+        });
     } catch (error) {
-        res.status(400).json({ success: false, message: error.message });
+        res.status(400).json({
+            success: false,
+            message: error.message
+        });
     }
 }
 
@@ -69,15 +98,25 @@ export const deleteProduct = async (req, res, next) => {
             })
         }
         await Product.findByIdAndDelete(req.params.id);
-        res.status(200).json({ success: true, message: "Product Deleted Successfully!!!" });
+        res.status(200).json({
+            success: true,
+            message: "Product Deleted Successfully!!!"
+        });
     } catch (error) {
-        res.status(400).json({ success: false, message: error.message });
+        res.status(400).json({
+            success: false,
+            message: error.message
+        });
     }
 }
 // Create new review or update the review
 export const createProductReview = async (req, res) => {
     try {
-        const { rating, comment, productId } = req.body;
+        const {
+            rating,
+            comment,
+            productId
+        } = req.body;
         const review = {
             user: req.user._id,
             name: req.user.name,
@@ -93,18 +132,25 @@ export const createProductReview = async (req, res) => {
                     rev.comment = comment;
                 }
             })
-        }
-        else {
+        } else {
             product.reviews.push(review);
         }
         product.numOfReviews = product.reviews.length;
         let avg = 0;
         product.reviews.forEach(rev => avg += rev.rating);
         product.ratings = avg / product.reviews.length;
-        await product.save({ validateBeforeSave: false });
-        res.status(200).json({ success: true, message: "Product reviewed Successfully!!!" });
+        await product.save({
+            validateBeforeSave: false
+        });
+        res.status(200).json({
+            success: true,
+            message: "Product reviewed Successfully!!!"
+        });
     } catch (error) {
-        res.status(400).json({ success: false, message: error.message });
+        res.status(400).json({
+            success: false,
+            message: error.message
+        });
     }
 
 }
@@ -115,9 +161,15 @@ export const getProductReviews = async (req, res) => {
         const product = await Product.findById(req.query.productId);
         if (!product)
             throw new Error("Product not found!!");
-        res.status(200).json({ success: true, reviews: product.reviews });
+        res.status(200).json({
+            success: true,
+            reviews: product.reviews
+        });
     } catch (error) {
-        res.status(400).json({ success: false, message: error.message });
+        res.status(400).json({
+            success: false,
+            message: error.message
+        });
     }
 }
 
@@ -130,11 +182,23 @@ export const deleteReview = async (req, res) => {
         product.reviews = product.reviews.filter((rev) => rev.user.toString() != req.query.id.toString());
         product.numOfReviews = product.reviews.length;
         let avg = 0;
-        product.reviews.forEach(rev => { avg += rev.rating });
+        product.reviews.forEach(rev => {
+            avg += rev.rating
+        });
         product.ratings = avg / product.reviews.length;
-        product.save({ new: true, runValidators: true, useFindAndModify: false });
-        res.status(200).json({ success: true, message: "Review removed Successfully!!" });
+        product.save({
+            new: true,
+            runValidators: true,
+            useFindAndModify: false
+        });
+        res.status(200).json({
+            success: true,
+            message: "Review removed Successfully!!"
+        });
     } catch (error) {
-        res.status(400).json({ success: false, message: error.message });
+        res.status(400).json({
+            success: false,
+            message: error.message
+        });
     }
 }

@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors())
 app.use('/users',userRoutes);
-app.use('/products',productRoutes);
+app.use('/product',productRoutes);
 app.use('/orders',orderRoutes)
 
 const PORT = process.env.PORT;
