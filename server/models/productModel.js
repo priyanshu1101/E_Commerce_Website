@@ -62,6 +62,11 @@ const productSchema = new mongoose.Schema({
             comment: {
                 type: String,
                 required: true,
+            },
+            reviewAt: {
+                type: Date,
+                required: true,
+                default: Date.now
             }
         }
     ],

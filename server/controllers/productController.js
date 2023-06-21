@@ -21,13 +21,15 @@ export const createProduct = async (req, res, next) => {
 export const getAllProducts = async (req, res) => {
     try {
         const resultPerPage = 8;
-        const productCount = await Product.countDocuments();
-        const apiFeature = new ApiFeatures(Product.find(), req.query).search().filter().pagination(resultPerPage);
-        const Products = await apiFeature.query;
+        const apiFeature1 = new ApiFeatures(Product.find(), req.query).search().filter()
+        const productCount = (await apiFeature1.query).length;
+        const apiFeature2 = new ApiFeatures(Product.find(), req.query).search().filter().pagination(resultPerPage);
+        const Products = await apiFeature2.query;
         res.status(200).json({
             success: true,
             Products,
-            productCount
+            productCount,
+            resultPerPage
         });
     } catch (error) {
         res.status(400).json({
@@ -40,7 +42,7 @@ export const getAllProducts = async (req, res) => {
 //Get product details
 export const getProductDetails = async (req, res, next) => {
     try {
-        const product = await Product.findById(req.params.id);
+        const product = await Product.findById(req.params.id).populate({ path: "reviews.user", select: "avatar.url", });
         if (!product) {
             return res.status(500).json({
                 success: false,

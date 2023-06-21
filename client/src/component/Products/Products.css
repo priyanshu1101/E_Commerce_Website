@@ -1,0 +1,109 @@
+.loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+}
+
+.productsHeading {
+    margin: 2vmax auto;
+    width: 15vw;
+    border-bottom: 1px solid black;
+    padding: 2vmax;
+    color: black;
+    font: 500 1.5vmax, "Roboto";
+    text-align: center;
+}
+
+.products {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 5vmax;
+    justify-content: center;
+    max-width: 100%;
+}
+
+/*  Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination .page-item {
+    margin: 0 5px;
+    list-style: none;
+    display: inline-block;
+}
+
+.pagination .page-link {
+    padding: 8px 12px;
+    border: 1px solid #eaeaea;
+    color: #333;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+    font-size: 14px;
+}
+
+.pagination .page-link:hover {
+    background-color: #f5f5f5;
+}
+
+.pagination .pageItemActive .page-link,
+.pagination .page-link.active {
+    background-color: #337ab7;
+    color: #fff;
+    border-color: #337ab7;
+    font-weight: bold;
+}
+
+.pagination .pageLinkActive {
+    background-color: #337ab7;
+    color: #fff;
+    border-color: #337ab7;
+    font-weight: bold;
+}
+
+.pagination .prevPageText,
+.pagination .nextPageText,
+.pagination .firstPageText,
+.pagination .lastPageText {
+    display: inline-block;
+    padding: 6px 12px;
+    border: 1px solid #eaeaea;
+    background-color: #fff;
+    color: #333;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+    font-size: 14px;
+    margin: 0 5px;
+}
+
+.pagination .prevPageText:hover,
+.pagination .nextPageText:hover,
+.pagination .firstPageText:hover,
+.pagination .lastPageText:hover {
+    background-color: #f5f5f5;
+}
+
+.pagination .page-item:first-child .prevPageText,
+.pagination .page-item:last-child .nextPageText {
+    border-radius: 5px;
+}
+
+.pagination .page-item:first-child .firstPageText,
+.pagination .page-item:last-child .lastPageText {
+    border-radius: 5px;
+}
+
+@media (max-width: 480px) {
+
+    .pagination .prevPageText,
+    .pagination .nextPageText,
+    .pagination .firstPageText,
+    .pagination .lastPageText,
+    .pagination .page-link {
+        font-size: 12px;
+        padding: 6px 8px;
+    }
+}
