@@ -1,77 +1,67 @@
 footer {
-    margin-top: 10vmax;
-    padding: 2vmax;
-    background-color: rgb(34, 33, 33);
-    color: white;
-    display: flex;
-    align-items: center;
-  }
-  
-  .leftFooter {
-    width: 20%;
-    display: flex;
-  
-    flex-direction: column;
-    align-items: center;
-  }
-  .leftFooter > h4 {
-    font-family: "Roboto";
-    font-size: 1vmax;
-  }
-  .leftFooter > p {
-    text-align: center;
-    font-size: 1.2vmax;
-    font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-      "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-  }
-  .leftFooter > img {
-    width: 10vmax;
-    margin: 1vmax;
-    cursor: pointer;
-  }
-  
-  .midFooter {
-    width: 60%;
-  
-    text-align: center;
-  }
-  
-  .midFooter > h1 {
-    font-size: 4vmax;
-    font-family: "Roboto";
-    color: rgb(235, 242, 25);
-  }
-  .midFooter > p {
-    max-width: 60%;
-    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-    margin: 1vmax auto;
-  }
-  
-  .rightFooter {
-    width: 20%;
-  
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .rightFooter > h4 {
-    font-family: "Roboto";
-    font-size: 1.4vmax;
-    text-decoration: underline;
-  }
-  .rightFooter > a {
-    text-decoration: none;
-    font-size: 1.3vmax;
-    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-    color: white;
-    transition: all 0.5s;
-    margin: 0.5vmax;
-  }
-  .socialIcon:hover {
-    color: pink; /* Change to the desired hover color */
-  }
-  
-  .socialIcon:hover {
-    transform: scale(1.2); /* Change the scale factor to adjust the icon size on hover */
-  }
-  
+  margin-top: 10vmax;
+  padding: 20px;
+  background-color: #F5F5F5;
+  color: #333333;
+}
+
+.footerContent {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footerSection {
+  flex: 1 1 33%;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.footerSection h4 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.footerSection p {
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.appIcons {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.appIcons img {
+  width: 80px;
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+.footerSection h1 {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.footerSection p:last-child {
+  margin-bottom: 0;
+}
+
+.socialIcons {
+  display: flex;
+  justify-content: center;
+}
+
+.socialIcon {
+  margin: 0 8px;
+  transition: all 0.3s;
+}
+
+.socialIcon:hover {
+  color: #FF69B4;
+  transform: scale(1.2);
+}

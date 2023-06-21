@@ -9,6 +9,7 @@ import ScrollToTop from './component/ScrollToTop';
 import Products from './component/Products/Products';
 import Search from './component/Search/Search';
 import './App.css';
+import LoginSignUp from './component/User/LoginSignUp';
 
 export const App = () => {
   React.useEffect(() => {
@@ -24,10 +25,16 @@ export const App = () => {
       <Header />
       <Routes>
         <Route exact path='/' Component={Home} />
+
         <Route exact path='/product/:id' Component={productDetails} />
+        {/* <Route exact path='/products/product/:id' Component={productDetails} /> */}
+
         <Route exact path='/products' Component={Products} />
         <Route exact path='/products/:keyword' Component={Products} />
+
         <Route exact path='/search' Component={Search} />
+
+        <Route exact path='/login' Component={LoginSignUp} />
       </Routes>
       <Footer />
     </BrowserRouter>

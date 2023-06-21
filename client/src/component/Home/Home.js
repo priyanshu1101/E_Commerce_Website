@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import ProductCard from './ProductCard';
+import ProductCard from './ProductCard/ProductCard';
 import { CgMouse } from "react-icons/cg";
 import MetaData from '../../MetaData';
 import { useDispatch, useSelector } from 'react-redux';
@@ -35,9 +35,7 @@ const Home = () => {
             </div>
             <h2 className='homeHeading'>Featured Products</h2>
             <div className='container' id='container'>
-
                 {(loading === undefined || loading) ? <Audio color='#5953bc' height="150" width="150" /> : (products && products?.map((product) => <ProductCard key={product?._id} product={product} />))}
-
             </div>
         </>
     )

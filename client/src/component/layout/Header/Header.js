@@ -36,6 +36,7 @@ const Header = () => {
         cartIconColorHover: "#eb4034",
         cartIconMargin: "1vmax",
         profileIcon: true,
+        profileIconUrl:"/login",
         ProfileIconElement: RiUserLine,
         searchIcon: true,
         SearchIconElement: RiSearchLine,

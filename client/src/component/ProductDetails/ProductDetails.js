@@ -8,8 +8,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Grid, Input } from '@mui/material';
 import ReactStars from 'react-rating-stars-component';
 import { Audio } from 'react-loader-spinner';
-import './ProductDetails.css'
+import MetaData from '../../MetaData';
 import ReviewCard from './ReviewCard/ReviewCard';
+import './ProductDetails.css'
 
 const ProductDetails = () => {
   const { product, error, loading } = useSelector((state) => state.productDetails);
@@ -40,6 +41,7 @@ const ProductDetails = () => {
       </div>
       :
       <Fragment>
+        <MetaData title={`${product.name} -- EasyShop.in`} />
         <ToastContainer />
         <div className='ProductContainer'>
           <Grid container>
