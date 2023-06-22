@@ -106,3 +106,29 @@ input {
     display: flex;
     align-items: center;
 }
+
+.loader {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+}
+
+.avatar-upload {
+    display: flex;
+    align-items: center;
+}
+
+.avatar-preview {
+    width: 50px;
+    height: 50px;
+    margin-left: 10px;
+}
+
+.avatar-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* border-radius: 50%; */
+}

@@ -17,6 +17,7 @@ export const newOrder = async (req, res) => {
 }
 // get single order
 export const getSingleOrder = async (req, res) => {
+    //  Need to find out method to populate using googleUser collection
     try {
         const order = await Order.findById(req.params.id).populate('user', "name email");
         if (!order) {

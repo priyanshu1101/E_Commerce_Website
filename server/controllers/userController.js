@@ -1,30 +1,38 @@
+import googleUser from "../models/googleUserModel.js";
 import User from "../models/userModel.js";
 import sendEmail from "../utils/sendEmail.js";
+import cloudinary from 'cloudinary';
 import Crypto from 'crypto';
+import axios from 'axios';
 
 export const registerUser = async (req, res, next) => {
     try {
-        const { name, email, password } = req.body;
+        const { name, email, password, avatar } = req.body;
+        const myCloud = await cloudinary.v2.uploader.upload(avatar, {
+            folder: "avatars",
+            width: 150,
+            crop: "scale",
+        })
         const user = await User.create({
             name,
             email,
             password,
             avatar: {
-                public_id: "this is demo id",
-                url: "www.demourl.com"
+                public_id: myCloud.public_id,
+                url: myCloud.secure_url
             }
-        })
+        });
+
         const token = user.getJWTToken();
         const options = {
             expires: new Date(Date.now() + process.env.COOKIE_EXPIRE * 24 * 60 * 60 * 1000),
             httpOnly: true
-        }
+        };
         res.status(201).cookie("token", token, options).json({ success: true, token });
     } catch (error) {
         res.status(400).json({ success: false, message: error.message });
     }
-
-}
+};
 
 export const loginUser = async (req, res) => {
     try {
@@ -52,6 +60,43 @@ export const loginUser = async (req, res) => {
         res.status(401).json({ success: false, message: error.message });
     }
 }
+export const googleAuth = async (req, res) => {
+    try {
+        const { googleId, imageUrl, email, name, accessToken } = req.body;
+        
+        // To verify google auth 
+        await axios.get(`https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=${accessToken}`);
+        
+        if (!email)
+            throw new Error("Invalid Autherization !!");
+        var token;
+        const user = await googleUser.findOne({ email });
+        if (!user) {
+            // Register new user
+            const newUser = await googleUser.create({
+                name,
+                email,
+                avatar: {
+                    public_id: googleId,
+                    url: imageUrl
+                }
+            });
+            token = newUser.getJWTToken();
+        }
+        else {
+            // Login (Also the image , name and google Id is updated)
+            const updatedUser = await googleUser.findOneAndUpdate({ email }, { name, imageUrl, googleId });
+            token = updatedUser.getJWTToken();
+        }
+        const options = {
+            expires: new Date(Date.now() + process.env.COOKIE_EXPIRE * 24 * 60 * 60 * 1000),
+            httpOnly: true
+        }
+        res.status(200).cookie("token", token, options).json({ success: true, token });
+    } catch (error) {
+        res.status(401).json({ success: false, message: error.message });
+    }
+}
 
 export const logoutUser = (req, res) => {
     try {
@@ -69,7 +114,7 @@ export const forgotPassword = async (req, res, next) => {
     try {
         const user = await User.findOne({ email: req.body.email });
         if (!user) {
-            throw new Error("No Such User Found!!");
+            throw new Error("No Such User Found !!");
         }
         // Get ResetPassword Token
         const resetToken = user.getResetPasswordToken();
@@ -251,3 +296,4 @@ export const deleteUser = async (req, res) => {
         res.status(400).json({ success: false, message: error.message });
     }
 }
+

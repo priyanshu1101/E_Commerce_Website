@@ -2,21 +2,22 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 10px;
-    background-color: #DB4437;
-    border: none;
+    width: 200px;
+    height: 40px;
+    background-color: #db4437;
     color: white;
+    border: none;
     border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
 .google-button:hover {
-    background-color: #D53E30;
+    background-color: #c62828;
 }
 
 .google-icon {
-    margin-left: 8px;
-    font-size: 18px;
-    vertical-align: middle;
+    margin-right: 8px;
 }
