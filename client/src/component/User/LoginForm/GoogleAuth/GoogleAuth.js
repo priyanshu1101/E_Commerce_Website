@@ -6,7 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch } from 'react-redux';
 import "./GoogleAuth.css";
-import { googleAuth } from '../../../actions/userAction';
+import { googleAuth } from '../../../../actions/userAction';
 
 const GoogleAuth = () => {
     const dispatch = useDispatch();

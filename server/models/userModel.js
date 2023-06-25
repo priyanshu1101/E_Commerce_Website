@@ -37,12 +37,22 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: "user"
     },
-    resetPasswordToken: String,
-    resetPasswordExpire: Date,
+    resetPasswordToken: {
+        type: String,
+        select: false
+    },
+    resetPasswordExpire: {
+        type: Date,
+        select: false
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
+    }
 })
 
 // To HASH the password (if changed if not changed then save as it is) before the user is saved
-userSchema.pre("save", async function (next) {        
+userSchema.pre("save", async function (next) {
     if (!this.isModified("password")) // Here this keyword allow us to access the data passed.
     {
         next();

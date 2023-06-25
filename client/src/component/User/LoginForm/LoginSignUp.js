@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import GoogleAuth from './GoogleAuth/GoogleAuth';
 import { useDispatch, useSelector } from 'react-redux';
-import { login, register } from '../../actions/userAction';
+import { login, register } from '../../../actions/userAction';
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import { Audio } from 'react-loader-spinner';
 import 'react-toastify/dist/ReactToastify.css';
+import { forgotPassword } from '../../../api/user';
+import profilePng from '../../../images/Profile.jpg';
 import './LoginSignUp.css';
-import { forgotPassword } from '../../api/user';
 
 const LoginSignUp = () => {
   const dispatch = useDispatch();
@@ -17,7 +18,7 @@ const LoginSignUp = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
 
-  const [user, setUser] = useState({ name: '', email: '', password: '', avatar: '../../images/Profile.png' });
+  const [user, setUser] = useState({ name: '', email: '', password: '', avatar: profilePng });
   const { name, email, password, avatar } = user;
 
   const handleFormChange = (e) => {
@@ -132,11 +133,9 @@ const LoginSignUp = () => {
                           id="avatar"
                           onChange={handleFormChange}
                         />
-                        {avatar && (
-                          <div className="avatar-preview">
-                            <img src={avatar} alt="Avatar Preview" />
-                          </div>
-                        )}
+                        <div className="avatar-preview">
+                          <img src={avatar} alt="Avatar Preview" />
+                        </div>
                       </div>
                     </div>
                   )}

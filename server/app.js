@@ -18,7 +18,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(fileUpload());
 
 app.use(cookieParser());
-app.use(cors());
+app.use(cors({
+    origin: ((process.env.NODE_ENV === "DEVELOPMENT") ? 'http://localhost:3000' : process.env.ORIGIN),
+    credentials: true
+}));
 
 app.use('/user', userRoutes);
 app.use('/product', productRoutes);
