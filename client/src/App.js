@@ -6,15 +6,18 @@ import Footer from './component/layout/Footer/Footer';
 import Home from './component/Home/Home.js';
 import productDetails from "./component/ProductDetails/ProductDetails.js";
 import ScrollToTop from './component/ScrollToTop';
-import Products from './component/Products/Products';
 import Search from './component/Search/Search';
 import LoginSignUp from './component/User/LoginForm/LoginSignUp';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadUser } from './actions/userAction';
 import UserOptions from './component/layout/Header/UserOptions/UserOptions.js';
-import './App.css';
 import Profile from './component/User/Profile/Profile';
 import ProtectedRoute from './component/Route/ProtectedRoute';
+import UpdateProfile from './component/User/UpdateProfile/UpdateProfile';
+import UpdatePassword from './component/User/UpdatePassword/UpdatePassword';
+import Products from './component/Products/Products List/Products';
+import ItemCart from './component/Products/ItemCart.js/ItemCart';
+import './App.css';
 
 export const App = () => {
   const dispatch = useDispatch();
@@ -35,19 +38,41 @@ export const App = () => {
       <Routes>
         <Route exact path='/' Component={Home} />
 
+        {/* Product Detail */}
         <Route exact path='/product/:id' Component={productDetails} />
         {/* <Route exact path='/products/product/:id' Component={productDetails} /> */}
 
+        {/*Product  */}
         <Route exact path='/products' Component={Products} />
         <Route exact path='/products/:keyword' Component={Products} />
 
+        {/* Search Product */}
         <Route exact path='/search' Component={Search} />
 
+        {/* Login */}
         <Route exact path='/login' Component={LoginSignUp} />
 
+        {/* Profile */}
         <Route exact path='/account' Component={ProtectedRoute}>
           <Route exact path='/account' Component={Profile} />
         </Route>
+
+        {/* Update Profile */}
+        <Route exact path='/account/update' Component={ProtectedRoute}>
+          <Route exact path='/account/update' Component={UpdateProfile} />
+        </Route>
+
+        {/* Update Password */}
+        <Route exact path='/account/updatePassword' Component={ProtectedRoute}>
+          <Route exact path='/account/updatePassword' Component={UpdatePassword} />
+        </Route>
+
+        {/* Reset Password */}
+        <Route exact path='/account/updatePassword/:token' Component={UpdatePassword} />
+
+        {/* Item Cart */}
+        <Route exact path='/cart' Component={ItemCart} />
+
 
       </Routes>
       <Footer />

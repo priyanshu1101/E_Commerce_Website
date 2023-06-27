@@ -13,8 +13,8 @@ dotenv.config();
 
 const app = express();
 
-app.use(bodyParser.json()); // Parse JSON bodies
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({ limit: '200mb' })); // Parse JSON bodies
+app.use(bodyParser.urlencoded({ limit: '200mb', extended: true }));
 app.use(fileUpload());
 
 app.use(cookieParser());

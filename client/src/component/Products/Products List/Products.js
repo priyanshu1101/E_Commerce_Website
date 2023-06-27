@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProducts } from '../../actions/productAction';
+import { getProducts } from '../../../actions/productAction';
 import { Audio } from 'react-loader-spinner';
 import { useParams } from 'react-router-dom';
-import ProductCard from '../Home/ProductCard/ProductCard';
+import ProductCard from '../../Home/ProductCard/ProductCard';
 import Pagination from "react-js-pagination";
 import Slider from '@mui/material/Slider';
-import { ToastContainer, toast } from 'react-toastify';
-import MetaData from '../../MetaData';
-import 'react-toastify/dist/ReactToastify.css';
+import { useAlert } from 'react-alert'
+import MetaData from '../../../MetaData';
+import { CLEAR_ERRORS } from '../../../constants/productConstants';
 import './Products.css';
 
 const Products = () => {
     const params = useParams();
     const dispatch = useDispatch();
+    const alert = useAlert();
     const { products, error, loading, productsCount, resultPerPage } = useSelector((state) => state.products);
     const [currentPage, setCurrentPage] = useState(1);
     const [price, setPrice] = useState([0, 1000000]);
@@ -53,15 +54,15 @@ const Products = () => {
 
     useEffect(() => {
         if (error) {
-            toast.error(error);
+            alert.error(error);
+            dispatch({ type: CLEAR_ERRORS })
         } else {
             dispatch(getProducts(keyword, currentPage, price, selectedCategory, rating));
         }
-    }, [dispatch, error, keyword, currentPage, price, selectedCategory, rating]);
+    }, [dispatch, error, keyword, currentPage, price, selectedCategory, rating, alert]);
 
     return (
         <>
-            <ToastContainer />
             <MetaData title="PRODUCTS -- EasyShop.in" />
             <div className="products-container">
                 <div className="sidebar">

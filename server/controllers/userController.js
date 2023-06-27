@@ -10,8 +10,8 @@ export const registerUser = async (req, res, next) => {
         const { name, email, password, avatar } = req.body;
         const myCloud = await cloudinary.v2.uploader.upload(avatar, {
             folder: "avatars",
-            width: 150,
             crop: "scale",
+            quality: "auto"
         })
         const user = await User.create({
             name,
@@ -27,8 +27,6 @@ export const registerUser = async (req, res, next) => {
         const options = {
             expires: new Date(Date.now() + process.env.COOKIE_EXPIRE * 24 * 60 * 60 * 1000),
             httpOnly: true,
-            domain: process.env.NODE_ENV === "DEVELOPMENT" ? ".localhost" : process.env.SUBDOMAIN
-
         };
         res.status(201).cookie("token", token, options).json({ success: true, token });
     } catch (error) {
@@ -57,7 +55,6 @@ export const loginUser = async (req, res) => {
         const options = {
             expires: new Date(Date.now() + process.env.COOKIE_EXPIRE * 24 * 60 * 60 * 1000),
             httpOnly: true,
-            domain: process.env.NODE_ENV === "DEVELOPMENT" ? ".localhost" : process.env.SUBDOMAIN
         }
         res.status(200).cookie("token", token, options).json({ success: true, user, token });
     } catch (error) {
@@ -98,7 +95,6 @@ export const googleAuth = async (req, res) => {
         const options = {
             expires: new Date(Date.now() + process.env.COOKIE_EXPIRE * 24 * 60 * 60 * 1000),
             httpOnly: true,
-            domain: process.env.NODE_ENV === "DEVELOPMENT" ? ".localhost" : process.env.SUBDOMAIN
         }
         res.status(200).cookie("token", token, options).json({ success: true, user, token });
     } catch (error) {
@@ -120,16 +116,18 @@ export const logoutUser = (req, res) => {
 
 export const forgotPassword = async (req, res, next) => {
     try {
-        const user = await User.findOne({ email: req.body.email });
+        const user = await User.findOne({ email: req.body.email }).select("+resetPasswordToken +resetPasswordExpire");
         if (!user) {
             throw new Error("No Such User Found !!");
         }
         // Get ResetPassword Token
-        const resetToken = user.getResetPasswordToken().select("+resetPasswordToken +resetPasswordExpire");
+        const resetToken = user.getResetPasswordToken();
 
         await user.save({ validateBeforeSave: false });
 
-        const resetPasswordUrl = `${req.protocol}://${req.get("host")}/users/password/reset/${resetToken}`
+        // const resetPasswordUrl = `${req.protocol}://${req.get("host")}/users/password/reset/${resetToken}`
+        const resetPasswordUrl = `${process.env.NODE_ENV === "DEVELOPMENT" ? "http://localhost:3000" : process.env.origin}/account/updatePassword/${resetToken}`
+
         const message = `
         <div style="font-family: Arial, sans-serif; padding: 20px; background-color: #f2f2f2;">
           <div style="background-color: #ffffff; padding: 20px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
@@ -176,13 +174,17 @@ export const resetPassword = async (req, res) => {
         if (!user) {
             throw new Error("Reset password token is either invalid or has been expired");
         }
-        if (req.body.password !== req.body.confirmPassword) {
+        if (!req.body.newPassword || !req.body.confirmPassword) {
+            throw new Error("Password can't be empty");
+        }
+
+        if (req.body.newPassword !== req.body.confirmPassword) {
             throw new Error("Password does not match");
         }
 
         user.resetPasswordToken = undefined;
         user.resetPasswordExpire = undefined;
-        user.password = req.body.password;
+        user.password = req.body.newPassword;
         await user.save({ validateBeforeSave: false });
         const token = user.getJWTToken();
         const options = {
@@ -206,15 +208,17 @@ export const getUserDetails = async (req, res, next) => {
 // Update the user password
 export const updatePassword = async (req, res) => {
     try {
+        if (!req.body.newPassword)
+            throw new Error("Password can't be empty !!");
         const user = await User.findOne(req.user._id).select("+password");
         const isPasswordMatched = await user.comparePasswords(req.body.oldPassword);
         if (!isPasswordMatched)
-            throw new Error("Old password doesn't match");
+            throw new Error("Old password doesn't match !!");
         if (req.body.newPassword !== req.body.confirmPassword)
-            throw new Error("Password doesn't match");
+            throw new Error("Password doesn't match !!");
         user.password = req.body.newPassword;
         await user.save({ validateBeforeSave: false });
-        res.status(200).json({ success: true, message: "Password Updated Successfully!!" })
+        res.status(200).json({ success: true, message: "Password Updated Successfully !!" })
     }
     catch (error) {
         res.status(400).json({ success: false, message: error.message });
@@ -224,20 +228,33 @@ export const updatePassword = async (req, res) => {
 // Update the user profile
 export const updateProfile = async (req, res) => {
     try {
+        const checkUser = await User.findOne({ email: req.body.email });
+        var newAvatar = req.body.avatar;
+        if (req.avatar === checkUser.avatar.url)
+            newAvatar = req.body.avatar
+        else {
+            const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
+                folder: "avatars",
+                crop: "scale",
+                quality: 'auto'
+            })
+            newAvatar = {
+                public_id: myCloud.public_id,
+                url: myCloud.url
+            }
+        }
         const updatedUser = {
             name: req.body.name,
-            email: req.body.email
+            email: req.body.email,
+            avatar: newAvatar
         }
-
-        // We will add cloud for image later
-
         const user = await User.findByIdAndUpdate(req.user.id, updatedUser,
             {
                 new: true.valueOf,
                 runValidators: true,
             });
 
-        res.status(200).json({ success: true, message: "Profile Updated Successfully!!" })
+        res.status(200).json({ success: true })
     }
     catch (error) {
         res.status(400).json({ success: false, message: error.message });

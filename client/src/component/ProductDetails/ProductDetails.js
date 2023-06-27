@@ -1,29 +1,47 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProductDetails } from '../../actions/productAction';
 import { useParams } from 'react-router-dom';
 import Carousel from 'react-material-ui-carousel';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { useAlert } from 'react-alert';
 import { Grid, Input } from '@mui/material';
 import ReactStars from 'react-rating-stars-component';
 import { Audio } from 'react-loader-spinner';
 import MetaData from '../../MetaData';
 import ReviewCard from './ReviewCard/ReviewCard';
 import './ProductDetails.css'
+import { CLEAR_ERRORS } from '../../constants/productConstants';
+import { addItemsToCart } from '../../actions/cartAction';
 
 const ProductDetails = () => {
   const { product, error, loading } = useSelector((state) => state.productDetails);
   const dispatch = useDispatch();
   const params = useParams();
+  const alert = useAlert();
+  const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
     if (error) {
-      toast.error(error);
-      return () => { };
+      alert.error(error);
+      dispatch({ type: CLEAR_ERRORS })
     }
     dispatch(getProductDetails(params.id));
-  }, [dispatch, error, params.id]);
+  }, [dispatch, error, params.id, alert]);
+
+  const decreaseQuantity = () => {
+    if (quantity > 1)
+      setQuantity(quantity - 1);
+  }
+  const increaseQuantity = () => {
+    if (quantity < product.Stock)
+      setQuantity(quantity + 1);
+    else
+      alert.show(`Oops !! , Only ${product.Stock} left in stock :(`)
+  }
+  const addToCartHandler = () => {
+    dispatch(addItemsToCart(product._id, quantity));
+    alert.success("Items added to cart !!");
+  }
 
   const options = {
     edit: false,
@@ -42,7 +60,6 @@ const ProductDetails = () => {
       :
       <Fragment>
         <MetaData title={`${product.name} -- EasyShop.in`} />
-        <ToastContainer />
         <div className='ProductContainer'>
           <Grid container>
             <Grid item xs={12} sm={6}>
@@ -77,12 +94,12 @@ const ProductDetails = () => {
                   <h1>₹ {product.price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} /-</h1>
                   <div className='detailsBlock-3-1'>
                     <div className='detailsBlock-3-1-1'>
-                      <button>-</button>
-                      <Input value='1' type='number' />
+                      <button onClick={decreaseQuantity}>-</button>
+                      <Input value={quantity} type='number' />
                       <span> </span>
-                      <button>+</button>
+                      <button onClick={increaseQuantity}>+</button>
                     </div>
-                    <button className='AddToCartButton'>Add to Cart</button>
+                    <button className='AddToCartButton' onClick={addToCartHandler}>Add to Cart</button>
                   </div>
                   <br />
                   <div style={{ display: 'flex', alignItems: 'center' }}>

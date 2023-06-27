@@ -16,8 +16,17 @@ export const logoutUser = () => axios.get(`${baseURL}/logout`);
 export const loadUserApi = () => axios.get(`${baseURL}/profile`);
 
 //Forgot Password 
-export const forgotPassword = (userData) => axios.post(`${baseURL}/password/forgot`, userData);
+export const forgotPasswordAPI = (userData) => axios.post(`${baseURL}/password/forgot`, userData);
 
+// Reset Password
+export const resetPasswordAPI = (userData) => axios.put(`${baseURL}/password/reset/${userData.token}`, userData);
+
+
+// Update profile
+export const updateUserProfileApi = (userData) => axios.put(`${baseURL}/profile/update`, userData);
+
+// Update password 
+export const updatePasswordApi = (passwords) => axios.put(`${baseURL}/password/update`, passwords);
 
 
 

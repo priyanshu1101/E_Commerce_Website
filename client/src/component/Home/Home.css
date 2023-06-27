@@ -1,81 +1,9 @@
-.banner {
-  /* background-image: linear-gradient(to right,#635dc0,#3027ae); */
+.home-banner {
   background-image: url("../../images/HomeBackground.jpg");
   background-position: center;
   background-repeat: no-repeat;
-  background-size: cover;.banner {
-    background-image: url("../../images/HomeBackground.jpg");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 100vh; /* Changed vmin to vh for full viewport height */
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-    color: white;
-  }
-  
-  .banner > h1 {
-    margin: 5vh; /* Changed 5vmax to 5vh for vertical spacing */
-    font: 600 2.5vmax "Roboto";
-  }
-  
-  .banner > p {
-    font: 300 1.4vmax "Lucida Sans";
-  }
-  
-  .banner > a > button {
-    margin-bottom: 5vh; /* Changed 5vmax to 5vh for vertical spacing */
-    cursor: pointer;
-    background-color: white;
-    border: 1px solid white;
-    border-radius: 0;
-    padding: 1vh; /* Changed 1vmax to 1vh for vertical padding */
-    transition: all 0.5s;
-    width: 9vh; /* Changed 9vmax to 9vh for button width */
-    font: 500 1vh "Roboto";
-  }
-  
-  .banner > a > button:hover {
-    background-color: rgba(255, 255, 255, 0);
-    color: white;
-  }
-  
-  .banner::after {
-    content: "";
-    width: 100vw;
-    height: 100vh; /* Changed 100vmin to 100vh for full viewport height */
-    background-color: #ffffff;
-    position: absolute;
-    top: 0%;
-    left: 0;
-    clip-path: polygon(100% 68%, 0 100%, 100% 100%);
-    max-width: 100%;
-  }
-  
-  .homeHeading {
-    text-align: center;
-    font-family: Roboto;
-    font-size: 1.4vmax;
-    border-bottom: 1px solid rgba(21, 21, 21, 0.5);
-    width: 20vmax;
-    padding: 1vmax;
-    margin: 5vh auto; /* Changed 5vmax to 5vh for vertical spacing */
-    color: rgba(0, 0, 0, 0.7);
-  }
-  
-  .container {
-    display: flex;
-    margin: 2vh auto; /* Changed 2vmax to 2vh for vertical spacing */
-    width: 95vw;
-    flex-wrap: wrap;
-    justify-content: center;
-    max-width: 100%;
-  }
-  
-  height: 100vmin;
+  background-size: cover;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   text-align: center;
@@ -84,37 +12,45 @@
   color: white;
 }
 
-.banner>h1 {
-  margin: 5vmax;
-
+.home-banner>h1 {
+  margin: 5vh;
   font: 600 2.5vmax "Roboto";
 }
 
-.banner>p {
+.home-banner>p {
   font: 300 1.4vmax "Lucida Sans";
 }
 
-.banner>a>button {
-  margin-bottom: 5vmax;
+.home-banner>a>button {
+  margin-bottom: 5vh;
   cursor: pointer;
   background-color: white;
   border: 1px solid white;
   border-radius: 0;
-  padding: 1vmax;
+  padding: 1vh;
   transition: all 0.5s;
-  width: 9vmax;
-  font: 500 1vmax "Roboto";
+  width: 8vh;
+  height: 9vh;
+  color: black;
+  font: 700 2vh "Roboto";
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  outline: none;
+  border-radius: 100%;
 }
 
-.banner>a>button:hover {
+.home-banner>a>button:hover {
   background-color: rgba(255, 255, 255, 0);
   color: white;
 }
 
-.banner::after {
+.home-banner::after {
   content: "";
   width: 100vw;
-  height: 100vmin;
+  height: 100vh;
   background-color: #ffffff;
   position: absolute;
   top: 0%;
@@ -123,22 +59,22 @@
   max-width: 100%;
 }
 
-.homeHeading {
+.home-heading {
   text-align: center;
   font-family: Roboto;
   font-size: 1.4vmax;
   border-bottom: 1px solid rgba(21, 21, 21, 0.5);
   width: 20vmax;
   padding: 1vmax;
-  margin: 5vmax auto;
-  color: rgb(0, 0, 0, 0.7);
+  margin: 5vh auto;
+  color: rgba(0, 0, 0, 0.7);
 }
 
-.container {
+.product-container {
   display: flex;
-  flex-wrap: wrap;
-  margin: 2vmax auto;
+  margin: 2vh auto;
   width: 95vw;
+  flex-wrap: wrap;
   justify-content: center;
   max-width: 100%;
 }

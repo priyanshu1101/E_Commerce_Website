@@ -2,21 +2,21 @@ import React, { useEffect } from 'react';
 import { GoogleLogin } from 'react-google-login';
 import { AiFillGoogleCircle } from 'react-icons/ai';
 import { gapi } from 'gapi-script';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { useAlert } from 'react-alert'
 import { useDispatch } from 'react-redux';
 import "./GoogleAuth.css";
 import { googleAuth } from '../../../../actions/userAction';
 
 const GoogleAuth = () => {
     const dispatch = useDispatch();
+    const alert = useAlert();
     const handleLoginSuccess = async (response) => {
         const { googleId, imageUrl, email, name } = response.profileObj;
         dispatch(googleAuth({ googleId, imageUrl, email, name, accessToken: response.accessToken }));
     };
 
     const handleLoginFailure = (error) => {
-        toast.error(error);
+        alert.error(error);
     };
 
     useEffect(() => {
@@ -30,7 +30,6 @@ const GoogleAuth = () => {
 
     return (
         <div className="google-auth">
-            <ToastContainer />
             <GoogleLogin
                 clientId={process.env.REACT_APP_CLIENT_ID}
                 buttonText="Sign in with Google"

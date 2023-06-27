@@ -1,20 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { Audio } from 'react-loader-spinner';
 import { useNavigate } from 'react-router-dom';
+import MetaData from '../../../MetaData';
+import Avatar from 'react-avatar';
 import './Profile.css';
 
 const Profile = () => {
-    const { isAuthenticated, loading, user } = useSelector((state) => state.user);
+    const { loading, user } = useSelector((state) => state.user);
     const navigate = useNavigate();
-    const [isHovered, setIsHovered] = useState(false);
-
-    useEffect(() => {
-        if (isAuthenticated !== true) {
-            navigate('/login');
-            return () => { };
-        }
-    }, [isAuthenticated, navigate]);
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -24,47 +18,32 @@ const Profile = () => {
         return `${day < 10 ? '0' + day : day}-${month < 10 ? '0' + month : month}-${year}`;
     };
 
-    const handlePhotoUpload = () => {
-        // Implement photo upload functionality
-        console.log('Upload a new photo');
-    };
-
     const handleMyOrders = () => {
-        // Navigate to My Orders page
         navigate('/orders');
     };
 
     const handleEditProfile = () => {
-        // Navigate to edit profile page
-        navigate('/edit-profile');
+        navigate('/account/update');
     };
 
     const handleChangePassword = () => {
-        // Navigate to change password page
-        navigate('/password/update');
+        navigate('/account/updatePassword');
     };
 
     return (
         <div className="profile-container">
+            <MetaData title={`${user.name} -- Profile`} />
             {(loading === undefined || loading) ?
-                (
-                    <Audio />
-                ) :
+                <div className="loader">
+                    <Audio color="#5953bc" height={150} width={150} />
+                </div> :
                 (
                     <div className="profile-wrapper">
                         <div className="left-section">
                             <h1 className="profile-heading">Profile</h1>
-                            <div
-                                className={`profile-photo ${isHovered ? 'hovered' : ''}`}
-                                onMouseEnter={() => setIsHovered(true)}
-                                onMouseLeave={() => setIsHovered(false)}
-                            >
-                                <img src={user.avatar.url} alt={user.name} className="photo-image" />
-                                {isHovered && (
-                                    <div className="upload-photo" onClick={handlePhotoUpload}>
-                                        Upload Photo
-                                    </div>
-                                )}
+                            <div className="profile-photo">
+                                {(user.avatar.url !== "") ? <img src={`${user.avatar.url}`} alt={user.name} className="photo-image" /> :
+                                    <Avatar name={user.name[0]} className="photo-image" />}
                             </div>
                             <button className="edit-button" onClick={handleEditProfile}>
                                 Edit Profile
@@ -89,8 +68,9 @@ const Profile = () => {
                             </div>
                         </div>
                     </div>
-                )}
-        </div>
+                )
+            }
+        </div >
     );
 };
 
