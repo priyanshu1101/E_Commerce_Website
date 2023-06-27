@@ -28,7 +28,7 @@ export const registerUser = async (req, res, next) => {
             expires: new Date(Date.now() + process.env.COOKIE_EXPIRE * 24 * 60 * 60 * 1000),
             httpOnly: true,
         };
-        res.status(201).cookie("token", token, options).json({ success: true, token });
+        res.status(201).cookie("token", token, options).json({ success: true, token, expiresIn: process.env.COOKIE_EXPIRE });
     } catch (error) {
         res.status(400).json({ success: false, message: error.message });
     }
@@ -56,7 +56,7 @@ export const loginUser = async (req, res) => {
             expires: new Date(Date.now() + process.env.COOKIE_EXPIRE * 24 * 60 * 60 * 1000),
             httpOnly: true,
         }
-        res.status(200).cookie("token", token, options).json({ success: true, user, token });
+        res.status(200).cookie("token", token, options).json({ success: true, user, token, expiresIn: process.env.COOKIE_EXPIRE });
     } catch (error) {
         res.status(401).json({ success: false, message: error.message });
     }
@@ -96,7 +96,7 @@ export const googleAuth = async (req, res) => {
             expires: new Date(Date.now() + process.env.COOKIE_EXPIRE * 24 * 60 * 60 * 1000),
             httpOnly: true,
         }
-        res.status(200).cookie("token", token, options).json({ success: true, user, token });
+        res.status(200).cookie("token", token, options).json({ success: true, user, token, expiresIn: process.env.COOKIE_EXPIRE });
     } catch (error) {
         res.status(401).json({ success: false, message: error.message });
     }
