@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactStars from 'react-rating-stars-component';
 import moment from 'moment';
 import './ReviewCard.css';
 
 const ReviewCard = ({ review }) => {
+  const [userReview, setUserReview] = useState(review);
+  console.log(userReview);
   const options = {
     edit: false,
     color2: '#ffa41c',
@@ -12,17 +14,20 @@ const ReviewCard = ({ review }) => {
     isHalf: true,
     value: review.rating
   };
+  useEffect(() => {
+    setUserReview(review);
+  }, [review])
   return (
     <div className="review-card">
       <div className="card-header">
-        <img className="profile-image" src={review.user.avatar.url} alt="User" />
+        <img className="profile-image" src={userReview.user.avatar && userReview.user.avatar.url} alt="User" />
         <div className="review-info">
-          <p className="review-name">{review.name}</p>
+          <p className="review-name">{userReview.name}</p>
           <ReactStars {...options} />
         </div>
       </div>
       <div className="card-body">
-        <p className="review-comment">{review.comment}</p>
+        <p className="review-comment">{userReview.comment}</p>
       </div>
       <div className="card-footer">
         <div className="review-date">

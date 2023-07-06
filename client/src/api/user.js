@@ -13,7 +13,7 @@ export const googleAuthUser = (userData, config) => axios.post(`${baseURL}/googl
 export const logoutUser = () => axios.get(`${baseURL}/logout`);
 
 // Load User
-export const loadUserApi = () => axios.get(`${baseURL}/profile`);
+export const loadUserApi = (config) => axios.get(`${baseURL}/profile`, config);
 
 //Forgot Password 
 export const forgotPasswordAPI = (userData) => axios.post(`${baseURL}/password/forgot`, userData);

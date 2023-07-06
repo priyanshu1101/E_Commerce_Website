@@ -1,10 +1,12 @@
 import express from "express";
-import { createProduct, createProductReview, deleteProduct, deleteReview, getAllProducts, getProductDetails, getProductReviews, updateProduct } from "../controllers/productController.js";
+import { createProduct, createProductReview, deleteProduct, deleteReview, getAllProducts, getAllProductsForAdmin, getProductDetails, getProductReviews, updateProduct } from "../controllers/productController.js";
 import { authrizeRole, isAuthenticatedUser } from "../middleware/auth.js";
 
 const router = express.Router();
 
 router.get('/', getAllProducts);
+
+router.get('/admin', isAuthenticatedUser, authrizeRole(['admin']), getAllProductsForAdmin);
 
 router.post('/admin/new', isAuthenticatedUser, authrizeRole(['admin']), createProduct);
 

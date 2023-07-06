@@ -63,7 +63,9 @@ export const register = (formData) => async (dispatch) => {
 export const loadUser = () => async (dispatch) => {
     try {
         dispatch({ type: LOAD_USER_REQUEST })
-        const { data } = await loadUserApi();
+        const token = Cookies.get('token');
+        const config = { headers: { "Cookie": token } };
+        const { data } = await loadUserApi(config);
         dispatch({
             type: LOAD_USER_SUCCESS,
             payload: data

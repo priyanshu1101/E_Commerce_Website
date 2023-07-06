@@ -18,13 +18,13 @@ const ProtectedRoute = () => {
         dispatch(loadUser());
     }, [dispatch])
     return <>
-        {loading ?
+        {(loading === true || loading===undefined) ?
             <div style={loader}>
                 <Audio color="#5953bc" height={150} width={150} />
             </div> : (
                 <>
                     {
-                        isAuthenticated ? <Outlet /> : <Navigate to="/login" />
+                        (isAuthenticated === false) ? <Navigate to="/login" /> : <Outlet />
                     }
                 </>
             )}

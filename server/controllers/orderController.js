@@ -10,8 +10,20 @@ export const newOrder = async (req, res) => {
             paidAt: Date.now(),
             user: req.user._id
         })
+        for (const item of orderDetails.orderItems) {  // Stock availability check
+            const product = await Product.findById(item.product);
+            if (product.Stock - item.quantity < 0)
+                throw new Error(`${item.name} in the order are currently out of stock , only ${item.quantity} left :(`);
+        }
+
+        for (const item of orderDetails.orderItems) {  // Stock update
+            const product = await Product.findById(item.product);
+            product.Stock -= item.quantity;
+            await product.save({ validateBeforeSave: false });
+        }
         res.status(200).json({ success: true, message: "Thanks for ordering with us !!" })
     } catch (error) {
+        console.log(error);
         res.status(400).json({ success: false, message: error.message });
     }
 }
@@ -33,7 +45,7 @@ export const getSingleOrder = async (req, res) => {
 // get orders for logged in user
 export const myOrders = async (req, res) => {
     try {
-        const orders = await Order.find({ user: req.user._id });
+        const orders = await Order.find({ user: req.user._id }).sort({ createdAt: -1 });
         res.status(200).json({ success: true, orders })
     } catch (error) {
         res.status(400).json({ success: false, message: error.message });
@@ -59,17 +71,6 @@ export const updateOrder = async (req, res) => {
         if (order.orderStatus === "Delivered")
             throw new Error("Order already delivered!!");
 
-        for (const item of order.orderItems) {  // Stock availability check
-            const product = await Product.findById(item.product);
-            if (product.Stock - item.quantity < 0)
-                throw new Error(`${item.name} in the order are currently out of stock , only ${item.quantity} left :(`);
-        }
-
-        for (const item of order.orderItems) {  // Stock update
-            const product = await Product.findById(item.product);
-            product.Stock -= item.quantity;
-            await product.save({ validateBeforeSave: false });
-        }
 
         // order.orderStatus = req.body.status;
         if (req.body.status === "Delivered")

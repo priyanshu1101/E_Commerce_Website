@@ -5,8 +5,10 @@ import { useDispatch } from 'react-redux';
 import { addItemsToCart, removeItemFromCart } from '../../../../actions/cartAction';
 import { useAlert } from 'react-alert';
 import './ItemCard.css';
+import { useNavigate } from 'react-router-dom';
 
 const ItemCard = ({ item }) => {
+  const Navigate = useNavigate();
   const alert = useAlert();
   const dispatch = useDispatch();
   const totalPrice = item.price * item.quantity;
@@ -35,11 +37,11 @@ const ItemCard = ({ item }) => {
   return (
     <div className="item-card">
       <div className="item-details">
-        <div className="image-container">
+        <div className="image-container" style={{ cursor: 'pointer' }} onClick={() => Navigate(`/product/${item.product}`)}>
           <img src={item.image} alt={item.name} />
         </div>
         <div className="item-info">
-          <h3>{item.name}</h3>
+          <h3 style={{ cursor: 'pointer' }} onClick={() => Navigate(`/product/${item.product}`)}>{item.name}</h3>
           <p>Price: Rs. {item.price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</p>
           <div className="quantity-input">
             <label>Quantity: {item.quantity}</label>

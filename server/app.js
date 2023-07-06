@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import productRoutes from "./routes/productRoutes.js";
 import userRoutes from "./routes/userRouters.js";
 import orderRoutes from "./routes/orderRoutes.js";
+import paymentRoute from "./routes/paymentRoute.js";
 import bodyParser from "body-parser";
 import fileUpload from "express-fileupload";
 import cloudinary from 'cloudinary';
@@ -25,7 +26,8 @@ app.use(cors({
 
 app.use('/user', userRoutes);
 app.use('/product', productRoutes);
-app.use('/orders', orderRoutes);
+app.use('/order', orderRoutes);
+app.use('/payment', paymentRoute);
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_NAME,

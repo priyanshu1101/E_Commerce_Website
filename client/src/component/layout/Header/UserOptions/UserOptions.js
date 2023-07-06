@@ -47,7 +47,7 @@ const UserOptions = ({ user }) => {
     }
 
     function orders() {
-        Navigate('/orders');
+        Navigate('/myorders');
     }
 
     function cart() {
@@ -59,7 +59,7 @@ const UserOptions = ({ user }) => {
     }
 
     function dashboard() {
-        Navigate('/dashboard');
+        Navigate('/admin/dashboard');
     }
 
     async function logoutUser() {

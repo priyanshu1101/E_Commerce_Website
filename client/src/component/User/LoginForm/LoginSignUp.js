@@ -11,7 +11,7 @@ import { FORGOT_PASSWORD_RESET } from '../../../constants/userConstants';
 import MetaData from '../../../MetaData';
 import './LoginSignUp.css';
 
-const LoginSignUp = () => {
+const LoginSignUp = ({ location }) => {
   const dispatch = useDispatch();
   const Navigate = useNavigate();
   const alert = useAlert();
@@ -23,7 +23,6 @@ const LoginSignUp = () => {
 
   const [user, setUser] = useState({ name: '', email: '', password: '', avatar: profilePng });
   const { name, email, password, avatar } = user;
-
 
   const handleFormChange = (e) => {
     if (e.target.id === "avatar") {
@@ -71,21 +70,24 @@ const LoginSignUp = () => {
     setShowForgotPassword(false);
   };
 
+  const redirect = window.location.search ? window.location.search.split('=')[1] : "/account";
+
   useEffect(() => {
     if (error || forgotPassworderror) {
       alert.error(error || forgotPassworderror);
       dispatch({ type: CLEAR_ERRORS })
     }
     if (isAuthenticated) {
-      Navigate("/account");
-      alert.success("Logged in successfully !!")
+      Navigate(redirect)
+      if (redirect === '/account')
+        alert.success("Logged in successfully !!")
     }
     if (message) {
       alert.success(message)
       dispatch({ type: FORGOT_PASSWORD_RESET });
       setShowForgotPassword(false)
     }
-  }, [error, isAuthenticated, Navigate, dispatch, forgotPassworderror, message, alert]);
+  }, [error, isAuthenticated, Navigate, dispatch, forgotPassworderror, message, alert, redirect]);
 
   return (
     (loading || forgotPasswordeLoading) ? (

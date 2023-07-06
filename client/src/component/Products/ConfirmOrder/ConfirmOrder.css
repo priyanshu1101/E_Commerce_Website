@@ -1,0 +1,75 @@
+.confirmOrderPage {
+    padding: 30px;
+}
+
+.mainContainer {
+    padding: 50px;
+}
+
+.shippingInfoContainer,
+.orderSummaryContainer {
+    padding: 20px;
+}
+
+.shippingInfoBox {
+    margin-top: 10px;
+    padding: 20px;
+    background-color: #f5f5f5;
+}
+
+.shippingInfoBox div {
+    margin-bottom: 15px;
+}
+
+.cartItemsContainer {
+    margin-top: 20px;
+}
+
+.cartItemsScrollable {
+    max-height: calc(100vh - 300px);
+    overflow-y: auto;
+    padding-right: 15px;
+    /* Add space for scrollbar */
+}
+
+.cartItem {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.productImage {
+    width: 70px;
+    height: 70px;
+    margin-right: 15px;
+}
+
+.billItem {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.orderTotal {
+    margin-top: 20px;
+    text-align: right;
+}
+
+.orderTotal p {
+    font-weight: bold;
+}
+
+@media (max-width: 767px) {
+    .confirmOrderPage {
+        flex-direction: column;
+    }
+
+    .shippingInfoBox {
+        padding: 15px;
+    }
+
+    .productImage {
+        width: 50px;
+        height: 50px;
+    }
+}

@@ -19,6 +19,9 @@ const ItemCart = () => {
     };
 
     const taxRate = 0.18; // 18% tax rate
+    const checkOutHandler = () => {
+        navigate('/login?redirect=/shipping')
+    }
 
     return (
         (cartItems.length === 0) ?
@@ -66,7 +69,7 @@ const ItemCart = () => {
                                 <span>Rs. {(calculateSubtotal() + calculateSubtotal() * taxRate).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ".00"}</span>
                             </div>
                         </div>
-                        <button className="checkout-button">Proceed to Checkout</button>
+                        <button className="checkout-button" onClick={checkOutHandler}>Proceed to Checkout</button>
                     </div>
                 </div>
             </div>

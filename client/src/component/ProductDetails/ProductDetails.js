@@ -1,32 +1,82 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProductDetails } from '../../actions/productAction';
-import { useParams } from 'react-router-dom';
+import { getProductDetails, productReview } from '../../actions/productAction';
+import { useNavigate, useParams } from 'react-router-dom';
 import Carousel from 'react-material-ui-carousel';
-import { useAlert } from 'react-alert';
-import { Grid, Input } from '@mui/material';
 import ReactStars from 'react-rating-stars-component';
+import { Button, Grid, Input, Modal } from '@mui/material';
+import { Rating } from '@mui/material';
 import { Audio } from 'react-loader-spinner';
-import MetaData from '../../MetaData';
+import { useAlert } from 'react-alert';
 import ReviewCard from './ReviewCard/ReviewCard';
-import './ProductDetails.css'
-import { CLEAR_ERRORS } from '../../constants/productConstants';
+import { GiShoppingCart } from 'react-icons/gi';
+import { CLEAR_ERRORS, NEW_REVIEW_RESET } from '../../constants/productConstants';
 import { addItemsToCart } from '../../actions/cartAction';
+import './ProductDetails.css';
 
 const ProductDetails = () => {
-  const { product, error, loading } = useSelector((state) => state.productDetails);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const params = useParams();
   const alert = useAlert();
+  const { product, error, loading } = useSelector((state) => state.productDetails);
+  const { user, loading: userLoading } = useSelector(state => state.user);
+  const { success, error: reviewError } = useSelector(state => state.newReview);
+  const params = useParams();
   const [quantity, setQuantity] = useState(1);
+  const [openModal, setOpenModal] = useState(false);
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState('');
+
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
+
+  const handleRatingChange = (event) => {
+    setRating(event.target.value);
+  };
+
+  const handleReviewChange = (event) => {
+    setComment(event.target.value);
+  };
+
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
+    const myForm = new FormData();
+    myForm.set("rating", rating);
+    myForm.set("comment", comment);
+    myForm.set("productId", params.id);
+    dispatch(productReview(myForm));
+    setOpenModal(false)
+  };
+
 
   useEffect(() => {
     if (error) {
       alert.error(error);
       dispatch({ type: CLEAR_ERRORS })
+
+      if (error === "Product not found")
+        navigate('/products')
+    }
+    if (reviewError) {
+      alert.error(reviewError);
+      dispatch({ type: CLEAR_ERRORS })
+    }
+    if (success) {
+      alert.success("Review Submitted Successfully!!")
+      dispatch({ type: NEW_REVIEW_RESET })
     }
     dispatch(getProductDetails(params.id));
-  }, [dispatch, error, params.id, alert]);
+  }, [dispatch, error, params.id, alert, success, reviewError, navigate]);
+
+  useEffect(() => {
+    const userRating = (user && product && product.reviews && product.reviews.length > 0)
+      ? product.reviews.find(review => review.user._id === user._id)
+      : { rating: '', comment: '' };
+    setRating(userRating ? userRating.rating || '' : '');
+    setComment(userRating ? userRating.comment || '' : '');
+
+  }, [user, product]);
 
   const decreaseQuantity = () => {
     if (quantity > 1)
@@ -53,13 +103,47 @@ const ProductDetails = () => {
   };
 
   return (
-    (loading === undefined || loading) ?
+    (loading === undefined || loading || userLoading === undefined || userLoading) ?
       <div className="loader">
         <Audio color="#5953bc" height={150} width={150} />
       </div>
       :
       <Fragment>
-        <MetaData title={`${product.name} -- EasyShop.in`} />
+        <div className={openModal && "modal-container"}>
+          <Modal open={openModal} onClose={() => setOpenModal(false)}>
+            <div className="modal-container">
+              <h2>Order Review</h2>
+              <form onSubmit={handleFormSubmit}>
+                <Grid container spacing={2} alignItems="center">
+                  <Grid item xs={12}>
+                    <Rating
+                      name="rating"
+                      value={rating}
+                      onChange={handleRatingChange}
+                      size="large"
+                      precision={0.5}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Input
+                      multiline
+                      rows={4}
+                      fullWidth
+                      placeholder="Write your review..."
+                      value={comment}
+                      onChange={handleReviewChange}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Button type="submit" variant="contained" color="primary">
+                      Submit
+                    </Button>
+                  </Grid>
+                </Grid>
+              </form>
+            </div>
+          </Modal>
+        </div>
         <div className='ProductContainer'>
           <Grid container>
             <Grid item xs={12} sm={6}>
@@ -81,7 +165,7 @@ const ProductDetails = () => {
             <Grid item xs={12} sm={6}>
               <div className='ProductInfo'>
                 <div className='detailsBlock-1'>
-                  <h2>{product?.name}</h2>
+                  <h2 style={{ textAlign: 'left' }}>{product?.name}</h2>
                   <p>Product # {product?._id}</p>
                 </div>
                 <div className='detailsBlock-2'>
@@ -91,12 +175,11 @@ const ProductDetails = () => {
                   </a>
                 </div>
                 <div className='detailsBlock-3'>
-                  <h1>₹ {product.price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} /-</h1>
-                  <div className='detailsBlock-3-1'>
+                  <h1>Rs. {product?.price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} /-</h1>
+                  <div className={`detailsBlock-3-1 ${product?.Stock < 1 ? "out-of-stock" : "in-stock"}`}>
                     <div className='detailsBlock-3-1-1'>
                       <button onClick={decreaseQuantity}>-</button>
-                      <Input value={quantity} type='number' />
-                      <span> </span>
+                      <Input value={quantity} type='number' readOnly />
                       <button onClick={increaseQuantity}>+</button>
                     </div>
                     <button className='AddToCartButton' onClick={addToCartHandler}>Add to Cart</button>
@@ -113,7 +196,9 @@ const ProductDetails = () => {
                   <div><h3>Description:</h3> {product?.description}</div>
                 </div>
                 <br />
-                <button className='submitReview'>Submit Review</button>
+                <button className='submitReview' onClick={handleOpenModal}>Submit Review</button>
+                <br />
+                <button className='viewCart' onClick={() => { navigate('/cart') }}>Go to Cart <GiShoppingCart style={{ marginLeft: '10px' }} size={25} /></button>
               </div>
             </Grid>
           </Grid>
@@ -138,7 +223,7 @@ const ProductDetails = () => {
 
 
 
-      </Fragment>
+      </Fragment >
   );
 };
 
