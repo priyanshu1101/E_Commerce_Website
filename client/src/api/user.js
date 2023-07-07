@@ -29,5 +29,15 @@ export const updateUserProfileApi = (userData) => axios.put(`${baseURL}/profile/
 export const updatePasswordApi = (passwords) => axios.put(`${baseURL}/password/update`, passwords);
 
 
+// Admin
+
+// Fetch user for admin
+export const fetchUsersAPI = () => axios.get(`${baseURL}/admin/users`);
+export const fetchUserDetailsAPI = (userId) => axios.get(`${baseURL}/admin/user/${userId}`);
+export const updateUserAPI = (userId, userData, config) => axios.put(`${baseURL}/admin/user/${userId}`, userData, config);
+export const deleteUserAPI = (userId) => axios.delete(`${baseURL}/admin/user/${userId}`);
+
+
+
 
 // export const fetchProductDetails = (productID) => axios.get(`${baseURL}/${productID}`);

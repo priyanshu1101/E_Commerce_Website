@@ -20,6 +20,7 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 20px;
   border-radius: 4px;
+  width: 500px;
 }
 
 h2 {
@@ -71,6 +72,11 @@ h2 {
     flex-basis: 100%;
     margin-top: 20px;
   }
+}
+
+.subtotal-container {
+  width: 330px;
+  margin-right: 20px;
 }
 
 /* No product in cart */

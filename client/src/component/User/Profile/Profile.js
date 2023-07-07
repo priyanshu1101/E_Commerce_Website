@@ -31,13 +31,14 @@ const Profile = () => {
     };
 
     return (
-        <div className="profile-container">
-            <MetaData title={`${user.name} -- Profile`} />
-            {(loading === undefined || loading) ?
-                <div className="loader">
-                    <Audio color="#5953bc" height={150} width={150} />
-                </div> :
-                (
+
+        (loading === undefined || loading || user === undefined) ?
+            <div className="loader">
+                <Audio color="#5953bc" height={150} width={150} />
+            </div> :
+            (
+                <div className="profile-container">
+                    <MetaData title={`${user.name} -- Profile`} />
                     <div className="profile-wrapper">
                         <div className="left-section">
                             <h1 className="profile-heading">Profile</h1>
@@ -68,9 +69,8 @@ const Profile = () => {
                             </div>
                         </div>
                     </div>
-                )
-            }
-        </div >
+                </div >
+            )
     );
 };
 

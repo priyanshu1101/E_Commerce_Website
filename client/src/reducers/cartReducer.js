@@ -1,4 +1,4 @@
-import { ADD_TO_CART, CLEAR_CART, REMOVE_FROM_CART, SAVE_SHIPPING_INFO } from "../constants/cartConstants";
+import { ADD_TO_CART, CLEAR_CART, CLEAR_ERRORS, REMOVE_FROM_CART, SAVE_SHIPPING_INFO, UPDATE_CART_ITEMS_FAIL, UPDATE_CART_ITEMS_REQUEST, UPDATE_CART_ITEMS_SUCCESS } from "../constants/cartConstants";
 
 const initialState = {
     cartItems: localStorage.getItem("cartItems") ? JSON.parse(localStorage.getItem("cartItems")) : [],
@@ -30,11 +30,35 @@ export const cartReducer = (state = initialState, action) => {
                 ...state,
                 shippingInfo: action.payload
             };
+        case UPDATE_CART_ITEMS_REQUEST:
+            return {
+                ...state,
+                loading: true
+            }
+        case UPDATE_CART_ITEMS_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                cartItems: action.payload
+            }
+        case UPDATE_CART_ITEMS_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload
+            }
         case CLEAR_CART:
             {
                 return {
                     ...state,
                     cartItems: []
+                }
+            }
+        case CLEAR_ERRORS:
+            {
+                return {
+                    ...state,
+                    error: null
                 }
             }
         default:

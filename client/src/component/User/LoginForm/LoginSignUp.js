@@ -40,7 +40,7 @@ const LoginSignUp = ({ location }) => {
     }
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     if (isLogin) {
       dispatch(login({ email, password }));
@@ -50,8 +50,25 @@ const LoginSignUp = ({ location }) => {
       formData.append("name", name);
       formData.append("email", email);
       formData.append("password", password);
-      formData.append("avatar", avatar);
-      dispatch(register(formData));
+      if (avatar === profilePng) {
+        try {
+          const response = await fetch(profilePng);
+          const blob = await response.blob();
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            const base64Image = reader.result;
+            formData.append("avatar", base64Image);
+            dispatch(register(formData));
+          };
+          reader.readAsDataURL(blob);
+        } catch (error) {
+          console.log('Error fetching the image:', error);
+        }
+      }
+      else {
+        formData.append("avatar", avatar);
+        dispatch(register(formData));
+      }
     }
   };
 

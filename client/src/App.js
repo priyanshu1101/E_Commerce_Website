@@ -31,6 +31,11 @@ import './App.css';
 import AdminRoute from './component/Route/AdminRoute';
 import ProductList from './component/User/Admin/ProductList/ProductList';
 import NewProduct from './component/User/Admin/NewProduct/NewProduct';
+import OrderList from './component/User/Admin/OrderList/OrderList';
+import ProcessOrder from './component/User/Admin/Process Order/ProcessOrder';
+import UserList from './component/User/Admin/Users List/UserList';
+import UpdateUser from './component/User/Admin/Update User/UpdateUser';
+import ReviewList from './component/User/Admin/ReviewList/ReviewList';
 
 export const App = () => {
   const dispatch = useDispatch();
@@ -149,6 +154,31 @@ export const App = () => {
         {/* Admin update Product */}
         <Route exact path='/admin/product/update/:id' Component={AdminRoute}>
           <Route exact path='/admin/product/update/:id' Component={NewProduct} />
+        </Route>
+
+        {/* Admin Order List */}
+        <Route exact path='/admin/orders' Component={AdminRoute}>
+          <Route exact path='/admin/orders' Component={OrderList} />
+        </Route>
+
+        {/* Admin Process Order */}
+        <Route exact path='/admin/order/update/:id' Component={AdminRoute}>
+          <Route exact path='/admin/order/update/:id' Component={ProcessOrder} />
+        </Route>
+
+        {/* Admin User List */}
+        <Route exact path='/admin/users' Component={AdminRoute}>
+          <Route exact path='/admin/users' Component={UserList} />
+        </Route>
+
+        {/* Admin User List */}
+        <Route exact path='/admin/user/update/:id' Component={AdminRoute}>
+          <Route exact path='/admin/user/update/:id' Component={UpdateUser} />
+        </Route>
+
+        {/* Admin User List */}
+        <Route exact path='/admin/reviews' Component={AdminRoute}>
+          <Route exact path='/admin/reviews' Component={ReviewList} />
         </Route>
 
       </Routes>

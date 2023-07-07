@@ -72,7 +72,7 @@ const MyOrders = () => {
                                             </div>
                                         ))}
                                     </td>
-                                    <td>Rs. {order.totalPrice.toLocaleString()}.00</td>
+                                    <td>Rs. {order.totalPrice.toLocaleString()}</td>
                                     <td>
                                         <span className={`status ${order.orderStatus === 'Processing' ? 'Processing' : 'Delivered'}`}>
                                             {order.orderStatus}

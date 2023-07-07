@@ -1,5 +1,5 @@
 import { CLEAR_ERRORS } from "../constants/productConstants";
-import { LOGIN_REQUEST, LOGIN_FAIL, LOGIN_SUCCESS, REGISTER_USER_REQUEST, REGISTER_USER_SUCCESS, REGISTER_USER_FAIL, LOAD_USER_REQUEST, LOAD_USER_SUCCESS, LOAD_USER_FAIL, LOGOUT_REQUEST, LOGOUT_SUCCESS, LOGOUT_FAIL, UPDATE_PROFILE_REQUEST, UPDATE_PROFILE_SUCCESS, UPDATE_PROFILE_RESET, UPDATE_PROFILE_FAIL, UPDATE_PASSWORD_REQUEST, UPDATE_PASSWORD_SUCCESS, UPDATE_PASSWORD_FAIL, UPDATE_PASSWORD_RESET, FORGOT_PASSWORD_FAIL, FORGOT_PASSWORD_REQUEST, FORGOT_PASSWORD_SUCCESS, FORGOT_PASSWORD_RESET, RESET_PASSWORD_REQUEST, RESET_PASSWORD_FAIL, RESET_PASSWORD_SUCCESS, RESET_PASSWORD_RESET } from "../constants/userConstants";
+import { LOGIN_REQUEST, LOGIN_FAIL, LOGIN_SUCCESS, REGISTER_USER_REQUEST, REGISTER_USER_SUCCESS, REGISTER_USER_FAIL, LOAD_USER_REQUEST, LOAD_USER_SUCCESS, LOAD_USER_FAIL, LOGOUT_REQUEST, LOGOUT_SUCCESS, LOGOUT_FAIL, UPDATE_PROFILE_REQUEST, UPDATE_PROFILE_SUCCESS, UPDATE_PROFILE_RESET, UPDATE_PROFILE_FAIL, UPDATE_PASSWORD_REQUEST, UPDATE_PASSWORD_SUCCESS, UPDATE_PASSWORD_FAIL, UPDATE_PASSWORD_RESET, FORGOT_PASSWORD_FAIL, FORGOT_PASSWORD_REQUEST, FORGOT_PASSWORD_SUCCESS, FORGOT_PASSWORD_RESET, RESET_PASSWORD_REQUEST, RESET_PASSWORD_FAIL, RESET_PASSWORD_SUCCESS, RESET_PASSWORD_RESET, ADMIN_USER_FETCH_SUCCESS, ADMIN_USER_FETCH_FAIL, ADMIN_USER_FETCH_REQUEST, ADMIN_USERDETAILS_FETCH_FAIL, ADMIN_USERDETAILS_FETCH_REQUEST, ADMIN_USERDETAILS_FETCH_SUCCESS, ADMIN_USER_UPDATE_REQUEST, ADMIN_USER_DELETE_REQUEST, ADMIN_USER_UPDATE_SUCCESS, ADMIN_USER_DELETE_SUCCESS, ADMIN_USER_UPDATE_FAIL, ADMIN_USER_DELETE_FAIL, ADMIN_USER_UPDATE_RESET, ADMIN_USER_DELETE_RESET } from "../constants/userConstants";
 export const userReducer = (state = { user: {} }, action) => {
     switch (action.type) {
         case LOGIN_REQUEST:
@@ -136,6 +136,60 @@ export const forgotPasswordReducer = (state = {}, action) => {
                 loading: false,
                 error: action.payload
             };
+        case CLEAR_ERRORS:
+            return {
+                ...state,
+                error: null
+            }
+        default:
+            return state;
+    }
+};
+
+export const adminUserFunctionReducer = (state = {}, action) => {
+    switch (action.type) {
+        case ADMIN_USER_FETCH_REQUEST:
+        case ADMIN_USERDETAILS_FETCH_REQUEST:
+        case ADMIN_USER_UPDATE_REQUEST:
+        case ADMIN_USER_DELETE_REQUEST:
+            return {
+                ...state,
+                loading: true,
+            };
+        case ADMIN_USER_FETCH_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                users: action.payload,
+            };
+        case ADMIN_USERDETAILS_FETCH_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                user: action.payload,
+            };
+        case ADMIN_USER_UPDATE_SUCCESS:
+        case ADMIN_USER_DELETE_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                success: action.payload
+            }
+        case ADMIN_USER_FETCH_FAIL:
+        case ADMIN_USERDETAILS_FETCH_FAIL:
+        case ADMIN_USER_UPDATE_FAIL:
+        case ADMIN_USER_DELETE_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload
+            };
+        case ADMIN_USER_UPDATE_RESET:
+        case ADMIN_USER_DELETE_RESET:
+            return {
+                ...state,
+                success: false
+            }
         case CLEAR_ERRORS:
             return {
                 ...state,

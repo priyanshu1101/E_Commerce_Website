@@ -17,7 +17,7 @@ const ProductList = () => {
     const dispatch = useDispatch();
     const alert = useAlert();
     const { loading, products, error } = useSelector(state => state.products);
-    const { success, error: DeleteError } = useSelector(state => state.productFunctions)
+    const { success, error: DeleteError } = useSelector(state => state.productFunctionsForAdmin)
 
     const handleDeleteButton = (id) => {
         dispatch(deleteProduct(id));

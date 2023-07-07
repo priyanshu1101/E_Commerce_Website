@@ -4,6 +4,7 @@ import sendEmail from "../utils/sendEmail.js";
 import cloudinary from 'cloudinary';
 import Crypto from 'crypto';
 import axios from 'axios';
+import Product from "../models/productModel.js";
 
 export const registerUser = async (req, res, next) => {
     try {
@@ -266,13 +267,15 @@ export const updateProfile = async (req, res) => {
 export const getAllUsers = async (req, res) => {
     try {
         const users = await User.find();
-        if (!users)
+        if (users.length === 0) {
             throw new Error("No User Found!!");
+        }
         res.status(200).json({ success: true, users });
     } catch (error) {
         res.status(400).json({ success: false, message: error.message });
     }
-}
+};
+
 
 // Get single user details -- Admin
 export const getSingleUser = async (req, res) => {
@@ -291,11 +294,11 @@ export const updateUserRole = async (req, res) => {
     try {
         const updatedUser = {
             name: req.body.name,
-            email: req.body.email,
+            // email: req.body.email,
             role: req.body.role
         }
 
-        const user = await User.findByIdAndUpdate(req.user.id, updatedUser,
+        const user = await User.findByIdAndUpdate(req.params.id, updatedUser,
             {
                 new: true.valueOf,
                 runValidators: true,
@@ -304,6 +307,7 @@ export const updateUserRole = async (req, res) => {
         res.status(200).json({ success: true, message: "Profile Updated Successfully!!" })
     }
     catch (error) {
+        log
         res.status(400).json({ success: false, message: error.message });
     }
 }
@@ -314,11 +318,28 @@ export const deleteUser = async (req, res) => {
         const user = await User.findById(req.params.id);
         if (!user)
             throw new Error("No User Found!!");
+        if (req.params.id === req.user.id)
+            throw new Error("Can't delete yourself !!");
+
+        // Delete images from cloudinary
+        await cloudinary.v2.uploader.destroy(user.avatar.public_id);
+
+        // Delete user reviews
+        const products = await Product.find();
+        for (const product of products) {
+            product.reviews = product.reviews.filter(review => review.user !== null && review.user.toString() !== req.params.id);
+            product.numOfReviews = product.reviews.length;
+            const ratings = product.reviews.reduce((total, review) => total + review.rating, 0);
+            product.ratings = product.numOfReviews === 0 ? 0 : (ratings / product.numOfReviews);
+            await product.save();
+        }
+
         await User.findByIdAndDelete(req.params.id);
-        res.status(200).json({ success: true, message: "User Deleted Successfully!!" })
+        res.status(200).json({ success: true, message: "User Deleted Successfully!!" });
     }
     catch (error) {
         res.status(400).json({ success: false, message: error.message });
     }
 }
+
 

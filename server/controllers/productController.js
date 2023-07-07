@@ -285,13 +285,14 @@ export const deleteReview = async (req, res) => {
         const product = await Product.findById(req.query.productId);
         if (!product)
             throw new Error("Product not found!!");
-        product.reviews = product.reviews.filter((rev) => rev.user.toString() != req.query.id.toString());
+        console.log(product.reviews[0]._id, req.query.id);
+        product.reviews = product.reviews.filter((rev) => rev._id.toString() !== req.query.id.toString());
         product.numOfReviews = product.reviews.length;
         let avg = 0;
         product.reviews.forEach(rev => {
             avg += rev.rating
         });
-        product.ratings = avg / product.reviews.length;
+        product.ratings = (product.numOfReviews === 0) ? 0 : avg / product.reviews.length;
         product.save({
             new: true,
             runValidators: true,

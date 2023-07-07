@@ -13,3 +13,5 @@ export const fetchProductsForAdminAPI = () => axios.get(`${baseURL}/admin`);
 export const createProductByAdminAPI = (productData, config) => axios.post(`${baseURL}/admin/new`, productData, config);
 export const deleteProductByAdminAPI = (productID) => axios.delete(`${baseURL}/admin/${productID}`);
 export const updateProductByAdminAPI = (productID, productData, config) => axios.put(`${baseURL}/admin/${productID}`, productData, config);
+export const fetchProductReviewsByAdminAPI = (productID) => axios.get(`${baseURL}/admin/reviews?productId=${productID}`);
+export const deleteProductReviewByAdminAPI = (productID, reviewId) => axios.delete(`${baseURL}/admin/reviews?id=${reviewId}&productId=${productID}`);

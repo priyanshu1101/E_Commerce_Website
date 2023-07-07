@@ -1,5 +1,5 @@
-import { ADMIN_PRODUCT_FAIL, ADMIN_PRODUCT_REQUEST, ADMIN_PRODUCT_SUCCESS, ALL_PRODUCT_FAIL, ALL_PRODUCT_REQUEST, ALL_PRODUCT_SUCCESS, CLEAR_ERRORS, DELETE_PRODUCT_FAIL, DELETE_PRODUCT_REQUEST, DELETE_PRODUCT_SUCCESS, NEW_PRODUCT_FAIL, NEW_PRODUCT_REQUEST, NEW_PRODUCT_SUCCESS, NEW_REVIEW_FAIL, NEW_REVIEW_REQUEST, NEW_REVIEW_SUCCESS, PRODUCT_DETAILS_FAIL, PRODUCT_DETAILS_REQUEST, PRODUCT_DETAILS_SUCCESS, UPDATE_PRODUCT_FAIL, UPDATE_PRODUCT_REQUEST, UPDATE_PRODUCT_SUCCESS } from '../constants/productConstants';
-import { fetchProducts, fetchProductDetails, reviewProductAPI, fetchProductsForAdminAPI, createProductByAdminAPI, deleteProductByAdminAPI, updateProductByAdminAPI } from '../api/product';
+import { ADMIN_PRODUCT_FAIL, ADMIN_PRODUCT_REQUEST, ADMIN_PRODUCT_SUCCESS, ALL_PRODUCT_FAIL, ALL_PRODUCT_REQUEST, ALL_PRODUCT_SUCCESS, CLEAR_ERRORS, DELETE_PRODUCT_FAIL, DELETE_PRODUCT_REQUEST, DELETE_PRODUCT_SUCCESS, DELETE_REVIEW_FAIL, DELETE_REVIEW_REQUEST, DELETE_REVIEW_SUCCESS, NEW_PRODUCT_FAIL, NEW_PRODUCT_REQUEST, NEW_PRODUCT_SUCCESS, NEW_REVIEW_FAIL, NEW_REVIEW_REQUEST, NEW_REVIEW_SUCCESS, PRODUCT_DETAILS_FAIL, PRODUCT_DETAILS_REQUEST, PRODUCT_DETAILS_SUCCESS, PRODUCT_REVIEWS_FAIL, PRODUCT_REVIEWS_REQUEST, PRODUCT_REVIEWS_SUCCESS, UPDATE_PRODUCT_FAIL, UPDATE_PRODUCT_REQUEST, UPDATE_PRODUCT_SUCCESS } from '../constants/productConstants';
+import { fetchProducts, fetchProductDetails, reviewProductAPI, fetchProductsForAdminAPI, createProductByAdminAPI, deleteProductByAdminAPI, updateProductByAdminAPI, deleteProductReviewByAdminAPI, fetchProductReviewsByAdminAPI } from '../api/product';
 
 export const getProducts = (keyword = "", currentPage = 1, price = [0, 1000000], category = "", rating = 0) => async (dispatch) => {
     try {
@@ -141,6 +141,42 @@ export const updateProduct = (productId, productData) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: UPDATE_PRODUCT_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+
+// Fetch all product Reviews -- admin
+export const fetchProductReviews = (productId) => async (dispatch) => {
+    try {
+        dispatch({ type: PRODUCT_REVIEWS_REQUEST })
+        const { data } = await fetchProductReviewsByAdminAPI(productId,);
+        dispatch({
+            type: PRODUCT_REVIEWS_SUCCESS,
+            payload: data
+        })
+
+    } catch (error) {
+        dispatch({
+            type: PRODUCT_REVIEWS_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+
+// Delete review
+export const delteProductReview = (productId, reviewId) => async (dispatch) => {
+    try {
+        dispatch({ type: DELETE_REVIEW_REQUEST })
+        const { data } = await deleteProductReviewByAdminAPI(productId, reviewId);
+        dispatch({
+            type: DELETE_REVIEW_SUCCESS,
+            payload: data
+        })
+
+    } catch (error) {
+        dispatch({
+            type: DELETE_REVIEW_FAIL,
             payload: error.response.data.message
         })
     }

@@ -42,7 +42,7 @@ const UserOptions = ({ user }) => {
         },
         { icon: <MdExitToApp size={23} />, name: 'Logout', func: logoutUser },
     ];
-    if (user.role === 'admin') {
+    if (user?.role === 'admin') {
         options = [{ icon: <MdDashboard size={23} />, name: 'Dashboard', func: dashboard }, ...options];
     }
 
@@ -83,7 +83,7 @@ const UserOptions = ({ user }) => {
                 direction="down"
                 className="speedDial"
                 style={{ zIndex: 11 }}
-                icon={<img className="speedDialIcon" src={user.avatar.url || profilePng} alt="Profile" />}
+                icon={<img className="speedDialIcon" src={user?.avatar.url || profilePng} alt="Profile" />}
             >
                 {options.map((item) => (
                     <SpeedDialAction key={item.name} icon={item.icon} tooltipTitle={item.name} onClick={item.func} tooltipOpen={window.innerWidth <= 600} />

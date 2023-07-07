@@ -29,7 +29,7 @@ const NewProduct = () => {
 
     const updateProductId = params.id;
 
-    const { error, success } = useSelector(state => state.productFunctions);
+    const { error, success } = useSelector(state => state.productFunctionsForAdmin);
     const { product } = useSelector(state => state.productDetails)
 
     const [name, setName] = useState('');
@@ -151,7 +151,7 @@ const NewProduct = () => {
                                                 required
                                                 fullWidth
                                                 value={price}
-                                                onChange={e => setPrice(e.target.value)}
+                                                onChange={e => setPrice(e.target.value < 0 ? '' : e.target.value)}
                                             />
                                         </Grid>
                                         <Grid item xs={12}>
@@ -175,7 +175,7 @@ const NewProduct = () => {
                                                     label="Product Category"
                                                 >
                                                     {categories.map(category => (
-                                                        <MenuItem key={category} value={category}>
+                                                        <MenuItem key={category} value={category} style={{ width: '100%' }}>
                                                             {category}
                                                         </MenuItem>
                                                     ))}
@@ -190,7 +190,7 @@ const NewProduct = () => {
                                                 required
                                                 fullWidth
                                                 value={stock}
-                                                onChange={e => setStock(e.target.value)}
+                                                onChange={e => setStock(e.target.value < 0 ? '' : e.target.value)}
                                             />
                                         </Grid>
                                         <Grid item xs={12}>

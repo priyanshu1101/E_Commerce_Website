@@ -89,7 +89,7 @@ const ConfirmOrder = () => {
                                         + Tax ({(taxRate * 100).toFixed(0)}%):
                                     </Typography>
                                     <Typography>
-                                        Rs. {(calculateSubtotal() * taxRate).toLocaleString()}.00
+                                        Rs. {(calculateSubtotal() * taxRate).toLocaleString()}
                                     </Typography>
                                 </div>
                                 <hr />
@@ -103,14 +103,14 @@ const ConfirmOrder = () => {
                                                 Rs. 200
                                             </span>
                                         )}
-                                        Rs. {shippingCharges.toLocaleString()}.00
+                                        Rs. {shippingCharges.toLocaleString()}
                                     </Typography>
                                 </div>
                                 <hr />
                                 <div className="total-row">
                                     <Typography><b>Total:</b></Typography>
                                     <Typography>
-                                        Rs. {totalPrice.toLocaleString()}.00
+                                        Rs. {totalPrice.toLocaleString()}
                                     </Typography>
                                 </div>
                             </div>

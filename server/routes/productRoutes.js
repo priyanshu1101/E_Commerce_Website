@@ -10,6 +10,10 @@ router.get('/admin', isAuthenticatedUser, authrizeRole(['admin']), getAllProduct
 
 router.post('/admin/new', isAuthenticatedUser, authrizeRole(['admin']), createProduct);
 
+router.route('/admin/reviews')
+    .get(getProductReviews)
+    .delete(deleteReview);
+    
 router.route('/admin/:id')
     .put(isAuthenticatedUser, authrizeRole(['admin']), updateProduct)
     .delete(isAuthenticatedUser, authrizeRole(['admin']), deleteProduct);
@@ -19,9 +23,6 @@ router.route('/:id')
 
 router.put('/review', isAuthenticatedUser, createProductReview);
 
-router.route('/reviews')
-    .get(getProductReviews)
-    .delete(deleteReview);
 
 
 export default router;

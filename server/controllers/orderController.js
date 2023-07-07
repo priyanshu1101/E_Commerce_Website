@@ -10,17 +10,6 @@ export const newOrder = async (req, res) => {
             paidAt: Date.now(),
             user: req.user._id
         })
-        for (const item of orderDetails.orderItems) {  // Stock availability check
-            const product = await Product.findById(item.product);
-            if (product.Stock - item.quantity < 0)
-                throw new Error(`${item.name} in the order are currently out of stock , only ${item.quantity} left :(`);
-        }
-
-        for (const item of orderDetails.orderItems) {  // Stock update
-            const product = await Product.findById(item.product);
-            product.Stock -= item.quantity;
-            await product.save({ validateBeforeSave: false });
-        }
         res.status(200).json({ success: true, message: "Thanks for ordering with us !!" })
     } catch (error) {
         console.log(error);
@@ -75,6 +64,23 @@ export const updateOrder = async (req, res) => {
         // order.orderStatus = req.body.status;
         if (req.body.status === "Delivered")
             order.deliveredAt = Date.now();
+
+        if (req.body.status === "Shipped") {
+            for (const item of order.orderItems) {  // Stock availability check
+                const product = await Product.findById(item.product);
+                if (product.Stock - item.quantity < 0)
+                    throw new Error(`${item.name} in the order are currently out of stock , only ${product.Stock} left :(`);
+            }
+
+            for (const item of order.orderItems) {  // Stock update
+                const product = await Product.findById(item.product);
+                product.Stock -= item.quantity;
+                await product.save({ validateBeforeSave: false });
+            }
+        }
+
+        order.orderStatus = req.body.status;
+
 
         await order.save({ validateBeforeSave: false });
 

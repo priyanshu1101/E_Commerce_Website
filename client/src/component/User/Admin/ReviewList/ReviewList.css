@@ -1,0 +1,39 @@
+.reviewListContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: white;
+}
+
+#reviewListHeading {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.input-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-right: auto;
+}
+
+.input-icon {
+    margin-right: 10px;
+}
+
+.input-field {
+    width: 300px;
+}
+
+.reviewListTable {
+    width: 100%;
+    height: 400px;
+}
+
+/* Responsive styles */
+@media (max-width: 600px) {
+    .input-field {
+        width: 100%;
+    }
+}

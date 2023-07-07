@@ -8,13 +8,21 @@ import Chart from 'chart.js/auto';
 import { CategoryScale } from 'chart.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProductsForAdmin } from '../../../../actions/productAction';
+import { fetchAllOrdersForAdmin } from '../../../../actions/orderAction';
+import { fetchUsers } from '../../../../actions/userAction';
+import { CLEAR_ERRORS } from '../../../../constants/userConstants';
+import { useAlert } from 'react-alert';
 Chart.register(CategoryScale);
 
 
 const Dashboard = () => {
+  const alert = useAlert();
+  const dispatch = useDispatch();
 
   const { products } = useSelector(state => state.products);
-  const dispatch = useDispatch();
+  const { orders, totalAmount } = useSelector(state => state.orderFunctionsForAdmin);
+  const { users, error } = useSelector(state => state.userFunctionForAdmin)
+
   var outofstock = 0;
 
   products && products.forEach(product => {
@@ -23,8 +31,14 @@ const Dashboard = () => {
   })
 
   useEffect(() => {
+    if (error) {
+      alert.error(error);
+      dispatch({ type: CLEAR_ERRORS });
+    }
     dispatch(getProductsForAdmin());
-  }, [dispatch])
+    dispatch(fetchAllOrdersForAdmin());
+    dispatch(fetchUsers())
+  }, [dispatch, error, alert])
 
   const lineState = {
     labels: ["Initial Amount", "Amount Earned"], // Make sure these are categorical labels
@@ -33,7 +47,7 @@ const Dashboard = () => {
         label: "TOTAL AMOUNT",
         backgroundColor: ["tomato"],
         hoverBackgroundColor: ["rgb(197,72,49)"],
-        data: [0, 4000],
+        data: [0, totalAmount],
       }
     ]
   };
@@ -55,7 +69,7 @@ const Dashboard = () => {
         <div className="dashboardSummary">
           <div>
             <p>
-              Total Amount <br /> Rs. 2000
+              Total Amount: <br /> Rs. {totalAmount && totalAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
             </p>
           </div>
           <div className='dashboardSummaryBox2'>
@@ -65,11 +79,11 @@ const Dashboard = () => {
             </Link>
             <Link to="/admin/orders">
               <p>Orders</p>
-              <p>4</p>
+              <p>{orders && orders.length}</p>
             </Link>
             <Link to="/admin/users">
               <p>Users</p>
-              <p>2</p>
+              <p>{users && users.length}</p>
             </Link>
           </div>
         </div>

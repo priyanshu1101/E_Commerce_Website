@@ -30,19 +30,35 @@ const ItemCard = ({ item }) => {
       alert.show(`Oops !! , Only ${item.stock} left in stock :(`)
     }
   };
-
   const onDelete = () => {
     dispatch(removeItemFromCart(item.product));
   }
   return (
-    <div className="item-card">
+    <div className={`item-card ${item.stock === 0 ? 'out-of-stock-item' : ''}`}>
       <div className="item-details">
-        <div className="image-container" style={{ cursor: 'pointer' }} onClick={() => Navigate(`/product/${item.product}`)}>
+        <div
+          className="image-container"
+          style={{ cursor: 'pointer' }}
+          onClick={() => Navigate(`/product/${item.product}`)}
+        >
           <img src={item.image} alt={item.name} />
         </div>
+        {item.stock === 0 && (
+          <div className="out-of-stock-message" style={{ display: 'flex', flexDirection: 'row', borderRadius: '40px', maxWidth: '80%' }}>
+            <p style={{ width: '400px', margin: '14px' }}>This product is out of stock</p>
+            <button className="delete-button" style={{ width: '50%', marginRight: '50px' }} onClick={onDelete}>
+              <AiFillDelete />
+            </button>
+          </div>
+        )}
         <div className="item-info">
-          <h3 style={{ cursor: 'pointer' }} onClick={() => Navigate(`/product/${item.product}`)}>{item.name}</h3>
-          <p>Price: Rs. {item.price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</p>
+          <h3
+            style={{ cursor: 'pointer' }}
+            onClick={() => Navigate(`/product/${item.product}`)}
+          >
+            {item.name}
+          </h3>
+          <p style={{ textAlign: 'left' }}>Price: Rs. {item.price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</p>
           <div className="quantity-input">
             <label>Quantity: {item.quantity}</label>
             <div className="quantity-controls">
@@ -76,6 +92,7 @@ const ItemCard = ({ item }) => {
         </div>
       </div>
     </div>
+
   );
 };
 
