@@ -101,7 +101,7 @@ export const App = () => {
         </Route>
 
         {/* Reset Password */}
-        <Route exact path='/account/updatePassword/:token' Component={UpdatePassword} />
+        <Route exact path='/user/password/reset/:token' Component={UpdatePassword} />
 
         {/* Item Cart */}
         <Route exact path='/cart' Component={ItemCart} />

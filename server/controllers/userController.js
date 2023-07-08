@@ -131,7 +131,7 @@ export const forgotPassword = async (req, res, next) => {
 
         await user.save({ validateBeforeSave: false });
 
-        const resetPasswordUrl = `${req.protocol}://${req.get("host")}/users/password/reset/${resetToken}`
+        const resetPasswordUrl = `${req.protocol}://${req.get("host")}/user/password/reset/${resetToken}`
 
         const message = `
         <div style="font-family: Arial, sans-serif; padding: 20px; background-color: #f2f2f2;">

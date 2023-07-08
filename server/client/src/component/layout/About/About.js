@@ -27,8 +27,8 @@ const About = () => {
                             Visit linkedin
                         </Button>
                         <span>
-                            This is a sample wesbite made by @meabhisingh. Only with the
-                            purpose to teach MERN Stack on the channel 6 Pack Programmer
+                            Hi! I'm Priyanshu Bansal, and I'm passionate about curating unique products
+                            to enhance your shopping experience. Discover something special with us!
                         </span>
                     </div>
                     <div className="aboutSectionContainer2">

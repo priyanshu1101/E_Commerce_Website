@@ -1,4 +1,4 @@
-import React, { useDebugValue, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { GoogleLogin } from 'react-google-login';
 import { AiFillGoogleCircle } from 'react-icons/ai';
 import { gapi } from 'gapi-script';
@@ -32,7 +32,7 @@ const GoogleAuth = () => {
 
     useEffect(() => {
         getGoogleClientId();
-    }, [])
+    })
 
     useEffect(() => {
         (clientId !== null) &&
