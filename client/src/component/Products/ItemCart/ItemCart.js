@@ -8,6 +8,7 @@ import './ItemCart.css';
 import { updateCart } from '../../../actions/cartAction';
 import { CLEAR_ERRORS } from '../../../constants/cartConstants';
 import { useAlert } from 'react-alert';
+import MetaData from '../../../MetaData';
 
 const ItemCart = () => {
     const { cartItems, error } = useSelector(state => state.cart);
@@ -51,6 +52,7 @@ const ItemCart = () => {
     return (
         (cartItems.length === 0) ?
             <div className='emptyCartDiv'>
+                <MetaData title="Item Cart" />
                 <div className="item-cart-container empty-cart">
                     <MdOutlineRemoveShoppingCart className="cart-icon" />
                     <h2>No products in your carts</h2>
@@ -61,6 +63,7 @@ const ItemCart = () => {
             </div>
             :
             <div className="item-cart-container">
+                <MetaData title="Item Cart" />  
                 <div className="left-div">
                     <h2>Cart</h2>
                     {cartItems.map(item => (

@@ -147,7 +147,7 @@ const ProcessOrder = () => {
                                                 <Typography variant="h5" style={{ marginBottom: '20px', textAlign: 'center' }}>Process Order</Typography>
                                                 <div style={{ display: 'flex', alignItems: 'center' }}>
                                                     <AccountTreeIcon style={{ marginRight: '10px' }} />
-                                                    <Select value={status} onChange={(e) => setStatus(e.target.value)} style={{ width: '300px' }}>
+                                                    <Select value={status} onChange={(e) => setStatus(e.target.value)} style={{ width: '100%' }}>
                                                         <MenuItem value="">Choose Category</MenuItem>
                                                         {order.orderStatus === "Processing" && <MenuItem value="Shipped">Shipped</MenuItem>}
                                                         {order.orderStatus === "Shipped" && <MenuItem value="Delivered">Delivered</MenuItem>}

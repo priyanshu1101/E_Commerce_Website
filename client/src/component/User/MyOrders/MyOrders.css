@@ -3,78 +3,96 @@
     justify-content: center;
     align-items: center;
     height: 300px;
+    background-color: white;
+}
+
+.speedDial .MuiButtonBase-root {
+    border-radius: 100%;
+    margin: 10px;
+    background-color: white;
+    color: #666666;
 }
 
 .my-orders-container {
-    margin: 20px;
-    padding: 40px;
+    background-color: white;
+    width: 100%;
+    box-sizing: border-box;
+    border-left: 1px solid rgba(0, 0, 0, 0.158);
+    display: flex;
+    flex-direction: column;
     min-height: 100vh;
+    padding: 2rem;
 }
 
-h2 {
+#productListHeading {
+    font: 400 2rem 'Roboto';
+    padding: 0.5vmax;
+    box-sizing: border-box;
+    color: rgba(0, 0, 0, 0.637);
+    transition: all 0.5s;
+    margin: 2rem;
     text-align: center;
-    margin-bottom: 20px;
-}
-
-.table-container {
-    overflow-x: auto;
 }
 
 .order-table {
-    width: 100%;
-    border-collapse: collapse;
-    border: 1px solid #ccc;
-    white-space: nowrap;
+    background-color: white;
+    border: none !important;
 }
 
-.order-table th,
-.order-table td {
+.order-table div {
+    font: 300 1vmax 'Roboto';
+    color: rgba(0, 0, 0, 0.678);
+    border: none !important;
+}
+
+.order-table a {
+    color: orange;
+    transition: all 0.5s;
+    text-decoration: none;
+    padding: 2px;
+}
+
+.order-table a:hover {
+    color: rgb(205, 133, 0);
+}
+
+.order-table button {
+    color: red;
+    transition: all 0.5s;
+    padding: 1px;
+}
+
+.order-table button:hover {
+    color: rgb(203, 0, 0);
+}
+
+.order-table .image-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.order-table .actions-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.order-table img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
     padding: 10px;
-    text-align: left;
-    border-bottom: 1px solid #ccc;
 }
 
-.order-table th {
-    background-color: #f2f2f2;
-}
-
-.order-table tbody tr:hover {
-    background-color: #f9f9f9;
+.table-cell {
     cursor: pointer;
 }
 
-.status {
-    display: inline-block;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-weight: bold;
-}
-
-.failed,
-.Processing {
-    color: #ff9800;
-}
-
-.succeeded,
-.Delivered {
-    color: #4caf50;
-}
-
-@media screen and (max-width: 768px) {
-    .my-orders-container {
-        padding: 20px;
+@media screen and (max-width: 600px) {
+    .order-table div {
+        font: 300 4vw 'Roboto';
     }
 
-    .order-table {
-        font-size: 14px;
-    }
-
-    .order-table th,
-    .order-table td {
-        padding: 8px;
-    }
-
-    h2 {
-        font-size: 24px;
-    }
 }

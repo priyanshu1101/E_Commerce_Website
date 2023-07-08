@@ -2,16 +2,27 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { myOrders } from '../../../actions/orderAction';
 import { CLEAR_ERRORS } from '../../../constants/orderConstants';
-import { useNavigate } from 'react-router-dom';
 import { useAlert } from 'react-alert';
 import { Audio } from 'react-loader-spinner';
 import './MyOrders.css';
+import MetaData from '../../../MetaData';
+import { DataGrid } from '@material-ui/data-grid';
+import { useNavigate } from 'react-router-dom';
 
 const MyOrders = () => {
-    const navigate = useNavigate();
     const dispatch = useDispatch();
     const alert = useAlert();
+    const navigate = useNavigate();
     const { orders, loading, error } = useSelector(state => state.myOrders);
+
+    const formatDate = (dateString) => {
+        const options = { year: "numeric", month: "long", day: "numeric" };
+        return new Date(dateString).toLocaleDateString(undefined, options);
+    };
+
+    const handleOrderClick = (params) => {
+        navigate(`/order/${params.id}`)
+    }
 
     useEffect(() => {
         if (error) {
@@ -19,72 +30,129 @@ const MyOrders = () => {
             dispatch({ type: CLEAR_ERRORS });
         }
         dispatch(myOrders());
-    }, [dispatch, alert, error]);
+    }, [dispatch, alert, error])
 
-    // Format the date to a user-readable format (e.g., "July 1, 2023")
-    const formatDate = (dateString) => {
-        const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        return new Date(dateString).toLocaleDateString(undefined, options);
-    };
+    const columns = [
+        {
+            field: 'date',
+            minWidth: 150,
+            headerName: 'Ordered At',
+            cellClassName:"table-cell",
+            flex: 1
+        },
+        {
+            field: 'shippingInfo',
+            headerName: 'Shipping Info',
+            minWidth: 350,
+            cellClassName:"table-cell",
+            flex: 2,
+            renderCell: params => {
+                return (
+                    <div>
+                        <div>
+                            Address: {params.value.shippingInfo.address}, {params.value.shippingInfo.city}, {params.value.shippingInfo.state}, {params.value.shippingInfo.country}, {params.value.shippingInfo.pincode}
+                        </div>
+                        <div>Phone: {params.value.shippingInfo.phoneNo}</div>
+                    </div>
+                );
+            }
+        },
+        {
+            field: 'paymentStatus',
+            headerName: 'Payment Status',
+            flex: 1,
+            cellClassName:"table-cell",
+            minWidth: 150,
+            renderCell: params => {
+                return (
+                    <div style={{ color: params.value === "Success" ? "green" : "red" }}>
+                        {params.value}
+                    </div>
+                );
+            }
+        },
+        {
+            field: 'items',
+            headerName: 'Order Items',
+            flex: 1.5,
+            cellClassName:"table-cell",
+            renderCell: params => {
+                return (
+                    params.value.map(item => (
+                        <div key={item._id}>
+                            {item.name} - Quantity: {item.quantity}
+                        </div>
+                    ))
+                );
+            }
+        },
+        {
+            field: 'totalPrice',
+            headerName: 'Total Price',
+            flex: 1,
+            cellClassName:"table-cell",
+            minWidth: 150,
+            renderCell: params => {
+                return (
+                    <div>
+                        Rs. {params.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    </div>
+                );
+            }
+        },
+        {
+            field: 'orderStatus',
+            headerName: 'Order Status',
+            flex: 1,
+            minWidth: 150,
+            cellClassName:"table-cell",
+            renderCell: params => {
+                return (
+                    <div style={{ color: params.value === 'Delivered' ? 'green' : params.value === 'Shipped' ? 'orange' : params.value === 'Processing' ? 'red' : 'black' }}>
+                        {params.value}
+                    </div>
+                );
+            }
+        },
+    ];
+
+    const rows = [];
+
+    orders &&
+        orders.forEach(order => {
+            rows.push({
+                id: order._id,
+                date: formatDate(order.createdAt),
+                shippingInfo: order,
+                paymentStatus: order.paymentInfo.status === "succeeded" ? "Success" : "Failed",
+                items: order.orderItems,
+                totalPrice: order.totalPrice,
+                orderStatus: order.orderStatus
+            });
+        });
 
     return (
-        <div className="my-orders-container">
-            <h2>My Orders</h2>
-            {(loading === undefined || loading) ? (
+        <>
+            <MetaData title="My Orders" />
+            {loading ? (
                 <div className="loader">
                     <Audio color="#5953bc" height={150} width={150} />
                 </div>
-
             ) : (
-                <div className="table-container">
-                    <table className="order-table">
-                        <thead>
-                            <tr>
-                                <th>Order ID</th>
-                                <th>Date</th>
-                                <th>Shipping Info</th>
-                                <th>Payment Status</th>
-                                <th>Items</th>
-                                <th>Total Price</th>
-                                <th>Order Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {orders.map(order => (
-                                <tr key={order._id} onClick={() => navigate(`/order/${order._id}`)} style={{ cursor: 'pointer' }}>
-                                    <td>{order._id}</td>
-                                    <td>{formatDate(order.createdAt)}</td>
-                                    <td>
-                                        <div>
-                                            Address: {order.shippingInfo.address}, {order.shippingInfo.city}, {order.shippingInfo.state}, {order.shippingInfo.country}, {order.shippingInfo.pinCode}
-                                        </div>
-                                        <div>Phone: {order.shippingInfo.phoneNo}</div>
-                                    </td>
-                                    <td>
-                                        <span className={`status ${order.paymentInfo.status === 'succeeded' ? 'succeeded' : 'failed'}`}>
-                                            {order.paymentInfo.status === "succeeded" ? 'Success' : 'Failed'}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        {order.orderItems.map(item => (
-                                            <div key={item._id}>
-                                                {item.name} - Quantity: {item.quantity}
-                                            </div>
-                                        ))}
-                                    </td>
-                                    <td>Rs. {order.totalPrice.toLocaleString()}</td>
-                                    <td>
-                                        <span className={`status ${order.orderStatus === 'Processing' ? 'Processing' : 'Delivered'}`}>
-                                            {order.orderStatus}
-                                        </span>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
+                <div className="productListContainer">
+                    <h2>My Orders</h2>
+                        <DataGrid
+                            rows={rows}
+                            columns={columns}
+                            pageSize={10}
+                            disableSelectionOnClick
+                            className="order-table"
+                            autoHeight
+                            onCellClick={handleOrderClick}
+                        />
+                    </div>
             )}
-        </div>
+        </>
     );
 };
 

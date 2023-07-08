@@ -1,0 +1,6 @@
+.speedDial .MuiButtonBase-root {
+    border-radius: 100%;
+    margin: 10px;
+    background-color: white;
+    color: #666666;
+}

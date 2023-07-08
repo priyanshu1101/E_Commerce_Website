@@ -11,6 +11,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import MetaData from '../../../../MetaData';
 import { deleteUser, fetchUsers } from '../../../../actions/userAction';
 import { ADMIN_USER_DELETE_RESET, CLEAR_ERRORS } from '../../../../constants/userConstants';
+import './UserList.css'
 
 const UserList = () => {
     const dispatch = useDispatch();

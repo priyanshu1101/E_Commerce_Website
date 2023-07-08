@@ -12,6 +12,7 @@ import { fetchAllOrdersForAdmin } from '../../../../actions/orderAction';
 import { fetchUsers } from '../../../../actions/userAction';
 import { CLEAR_ERRORS } from '../../../../constants/userConstants';
 import { useAlert } from 'react-alert';
+import MetaData from '../../../../MetaData';
 Chart.register(CategoryScale);
 
 
@@ -64,6 +65,7 @@ const Dashboard = () => {
   return (
     <div className='dashboard'>
       <Sidebar />
+      <MetaData title="Admin Dashboard" />
       <div className='dashboardContainer'>
         <Typography component="h1">Dashboard</Typography>
         <div className="dashboardSummary">

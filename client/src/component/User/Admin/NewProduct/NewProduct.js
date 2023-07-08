@@ -123,7 +123,7 @@ const NewProduct = () => {
 
     return (
         <>
-            <Metadata title="Create Product -- Admin" />
+            <Metadata title={`${updateProductId === undefined ? "Create" : "Update"} Product -- Admin`} />
             <div className="dashboard">
                 <Sidebar />
                 <div className='newProductMainContainer'>

@@ -13,6 +13,7 @@ import { GiShoppingCart } from 'react-icons/gi';
 import { CLEAR_ERRORS, NEW_REVIEW_RESET } from '../../constants/productConstants';
 import { addItemsToCart } from '../../actions/cartAction';
 import './ProductDetails.css';
+import MetaData from '../../MetaData';
 
 const ProductDetails = () => {
   const navigate = useNavigate();
@@ -109,6 +110,7 @@ const ProductDetails = () => {
       </div>
       :
       <Fragment>
+        <MetaData title={`${product.name} -- Easy Shop`} />
         <div className={openModal && "modal-container"}>
           <Modal open={openModal} onClose={() => setOpenModal(false)}>
             <div className="modal-container">

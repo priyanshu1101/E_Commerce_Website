@@ -11,6 +11,7 @@ import fileUpload from "express-fileupload";
 import cloudinary from 'cloudinary';
 import cors from 'cors';
 dotenv.config();
+import path from 'path';
 
 const app = express();
 
@@ -28,6 +29,13 @@ app.use('/user', userRoutes);
 app.use('/product', productRoutes);
 app.use('/order', orderRoutes);
 app.use('/payment', paymentRoute);
+
+app.use(express.static(path.join('../client/build')))
+
+app.get('*', (req, res) => {
+    console.log(path.resolve("../client/build/index.html"));
+    res.sendFile(path.resolve("../client/build/index.html"));
+})
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_NAME,

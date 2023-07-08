@@ -93,7 +93,7 @@
         display: block;
     }
 
-    .confirmOrderPage>div: first-child {
+    .confirmOrderPage>div:first-child {
         margin-bottom: 20px;
     }
 }

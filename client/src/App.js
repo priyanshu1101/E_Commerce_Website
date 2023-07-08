@@ -27,7 +27,6 @@ import SuccessPage from './component/Products/PaymentGateway/SuccessPage/Success
 import MyOrders from './component/User/MyOrders/MyOrders';
 import OrderDetail from './component/User/MyOrders/OrderDetail/OrderDetail';
 import Dashboard from './component/User/Admin/Dashboard/Dashboard';
-import './App.css';
 import AdminRoute from './component/Route/AdminRoute';
 import ProductList from './component/User/Admin/ProductList/ProductList';
 import NewProduct from './component/User/Admin/NewProduct/NewProduct';
@@ -36,6 +35,10 @@ import ProcessOrder from './component/User/Admin/Process Order/ProcessOrder';
 import UserList from './component/User/Admin/Users List/UserList';
 import UpdateUser from './component/User/Admin/Update User/UpdateUser';
 import ReviewList from './component/User/Admin/ReviewList/ReviewList';
+import About from './component/layout/About/About';
+import Contact from './component/layout/Contact Us/Contact';
+import './App.css';
+import PageNotFound from './component/layout/Not Found/PageNotFound';
 
 export const App = () => {
   const dispatch = useDispatch();
@@ -57,11 +60,14 @@ export const App = () => {
     getApiKey();
     dispatch(loadUser());
   }, [dispatch]);
+  window.addEventListener("contextmenu", (e) => e.preventDefault());
+
   return (
     <BrowserRouter>
       <ScrollToTop />
       <Header />
       {isAuthenticated && <UserOptions user={user} />}
+
       <Routes>
         <Route exact path='/' Component={Home} />
 
@@ -99,6 +105,12 @@ export const App = () => {
 
         {/* Item Cart */}
         <Route exact path='/cart' Component={ItemCart} />
+
+        {/* About Paeg */}
+        <Route exact path='/about' Component={About} />
+
+        {/* Contact Page */}
+        <Route exact path='/contact' Component={Contact} />
 
         {/* Shipping Info */}
         <Route exact path='/shipping' Component={ProtectedRoute}>
@@ -181,6 +193,8 @@ export const App = () => {
           <Route exact path='/admin/reviews' Component={ReviewList} />
         </Route>
 
+
+        <Route path='/*' Component={window.location.pathname === "/order/payment" ? null : PageNotFound} />
       </Routes>
       <Footer />
     </BrowserRouter >

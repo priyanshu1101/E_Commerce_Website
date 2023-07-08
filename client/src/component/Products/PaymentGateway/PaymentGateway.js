@@ -137,7 +137,7 @@ const PaymentGateway = () => {
                         <CardCvcElement className="paymentInput" />
                     </div>
 
-                    <Button type="submit" ref={payBtn} className="paymentFormBtn">
+                    <Button type="submit" ref={payBtn} className="paymentFormBtn" >
                         Pay - Rs. {orderInfo &&
                             orderInfo.totalPrice
                                 .toString()

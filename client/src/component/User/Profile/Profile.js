@@ -19,7 +19,7 @@ const Profile = () => {
     };
 
     const handleMyOrders = () => {
-        navigate('/orders');
+        navigate('/myorders');
     };
 
     const handleEditProfile = () => {

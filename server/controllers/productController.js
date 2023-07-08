@@ -285,7 +285,6 @@ export const deleteReview = async (req, res) => {
         const product = await Product.findById(req.query.productId);
         if (!product)
             throw new Error("Product not found!!");
-        console.log(product.reviews[0]._id, req.query.id);
         product.reviews = product.reviews.filter((rev) => rev._id.toString() !== req.query.id.toString());
         product.numOfReviews = product.reviews.length;
         let avg = 0;
