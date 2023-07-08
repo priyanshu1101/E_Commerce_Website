@@ -12,7 +12,6 @@ import bodyParser from "body-parser";
 import fileUpload from "express-fileupload";
 import cloudinary from 'cloudinary';
 import cors from 'cors';
-import path from 'path';
 
 dotenv.config();
 
