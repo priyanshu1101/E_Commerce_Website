@@ -38,6 +38,8 @@ export const updateUserAPI = (userId, userData, config) => axios.put(`${baseURL}
 export const deleteUserAPI = (userId) => axios.delete(`${baseURL}/admin/user/${userId}`);
 
 
+// google client id
+export const fetchGoogleId = () => axios.get(`${baseURL}/google/clientID/`);
 
 
 // export const fetchProductDetails = (productID) => axios.get(`${baseURL}/${productID}`);

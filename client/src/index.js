@@ -51,7 +51,6 @@ const options = {
     transition: transitions.SCALE,
 };
 
-axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 axios.defaults.withCredentials = true;
 
 const store = configureStore({ reducer: reducers }, {}, compose(applyMiddleware(thunk)));

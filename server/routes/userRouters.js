@@ -1,7 +1,9 @@
 import express from "express";
-import { deleteUser, forgotPassword, getAllUsers, getSingleUser, getUserDetails, googleAuth, loginUser, logoutUser, registerUser, resetPassword, updatePassword, updateProfile, updateUserRole } from "../controllers/userController.js";
+import { deleteUser, forgotPassword, getAllUsers, getGoogleClientId, getSingleUser, getUserDetails, googleAuth, loginUser, logoutUser, registerUser, resetPassword, updatePassword, updateProfile, updateUserRole } from "../controllers/userController.js";
 import { authrizeRole, isAuthenticatedUser } from "../middleware/auth.js";
 const router = express.Router();
+
+router.get('/google/clientID', getGoogleClientId);
 
 router.post('/register', registerUser);
 router.post('/login', loginUser);

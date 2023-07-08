@@ -6,6 +6,11 @@ import Crypto from 'crypto';
 import axios from 'axios';
 import Product from "../models/productModel.js";
 
+
+export const getGoogleClientId = async (req, res) => {
+    res.status(200).json({ googleClientId: process.env.GOOGLE_CLIENT_ID });
+}
+
 export const registerUser = async (req, res, next) => {
     try {
         const { name, email, password, avatar } = req.body;
@@ -126,8 +131,7 @@ export const forgotPassword = async (req, res, next) => {
 
         await user.save({ validateBeforeSave: false });
 
-        // const resetPasswordUrl = `${req.protocol}://${req.get("host")}/users/password/reset/${resetToken}`
-        const resetPasswordUrl = `${process.env.NODE_ENV === "DEVELOPMENT" ? "http://localhost:3000" : process.env.origin}/account/updatePassword/${resetToken}`
+        const resetPasswordUrl = `${req.protocol}://${req.get("host")}/users/password/reset/${resetToken}`
 
         const message = `
         <div style="font-family: Arial, sans-serif; padding: 20px; background-color: #f2f2f2;">
