@@ -9,7 +9,7 @@
     "dev": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "npm install && npm run client",
-    "client": "cd client && npm install -f && npm run build"
+    "client": "cd ../client && npm install -f && npm run build"
   },
   "author": "",
   "license": "ISC",

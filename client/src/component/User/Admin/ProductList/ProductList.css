@@ -1,0 +1,98 @@
+.loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: white;
+}
+
+
+.speedDial .MuiButtonBase-root {
+    border-radius: 100%;
+    margin: 10px;
+    background-color: white;
+    color: #666666;
+}
+
+.productListContainer {
+    background-color: white;
+    width: 100%;
+    box-sizing: border-box;
+    border-left: 1px solid rgba(0, 0, 0, 0.158);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    /* Changed to min-height */
+    padding: 2rem;
+    /* Added padding for better spacing */
+}
+
+#productListHeading {
+    font: 400 2rem 'Roboto';
+    padding: 0.5vmax;
+    box-sizing: border-box;
+    color: rgba(0, 0, 0, 0.637);
+    transition: all 0.5s;
+    margin: 2rem;
+    text-align: center;
+}
+
+.productListTable {
+    background-color: white;
+    border: none !important;
+}
+
+.productListTable div {
+    font: 300 1vmax 'Roboto';
+    color: rgba(0, 0, 0, 0.678);
+    border: none !important;
+}
+
+.productListTable a {
+    color: orange;
+    transition: all 0.5s;
+    text-decoration: none;
+    padding: 2px;
+}
+
+.productListTable a:hover {
+    color: rgb(205, 133, 0);
+}
+
+.productListTable button {
+    color: red;
+    transition: all 0.5s;
+    padding: 1px;
+}
+
+.productListTable button:hover {
+    color: rgb(203, 0, 0);
+}
+
+.productListTable .image-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.productListTable .actions-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    /* Added gap between icon and button */
+}
+
+.productListTable img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    /* Ensures the image is contained within the container */
+    padding: 10px;
+}
+
+@media screen and (max-width: 600px) {
+    .productListTable div {
+        font: 300 4vw 'Roboto';
+    }
+}
