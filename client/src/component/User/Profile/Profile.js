@@ -19,7 +19,7 @@ const Profile = () => {
     };
 
     const handleMyOrders = () => {
-        navigate('/orders');
+        navigate('/myorders');
     };
 
     const handleEditProfile = () => {
@@ -48,9 +48,9 @@ const Profile = () => {
                                 <Avatar name={user.name[0]} className="photo-image" />
                             )}
                         </div>
-                        <button className="edit-button" onClick={handleEditProfile}>
+                        {user.userType === "website" && <button className="edit-button" onClick={handleEditProfile}>
                             Edit Profile
-                        </button>
+                        </button>}
                     </div>
                     <div className="right-section">
                         <div className="profile-info">
@@ -65,9 +65,9 @@ const Profile = () => {
                             <button className="my-orders-button" onClick={handleMyOrders}>
                                 My Orders
                             </button>
-                            <button className="change-button" onClick={handleChangePassword}>
+                            {user.userType === "website" && <button className="change-button" onClick={handleChangePassword}>
                                 Change Password
-                            </button>
+                            </button>}
                         </div>
                     </div>
                 </div>

@@ -31,6 +31,30 @@ const Dashboard = () => {
       outofstock++;
   })
 
+  const formatDate = (dateString) => {
+    const options = {
+      day: 'numeric',
+      month: 'long',
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: true
+    };
+    const date = new Date(dateString);
+    const formattedDate = new Intl.DateTimeFormat('en-US', options).format(date);
+    return formattedDate;
+  };
+
+  const calcAverage = () => {
+    const averages = [];
+    var sum = 0;
+    if (orders)
+      for (let i = 0; i < orders.length; i++) {
+        sum += orders[i].totalPrice;
+        averages.push(sum / (i + 1));
+      }
+    return averages;
+  }
+
   useEffect(() => {
     if (error) {
       alert.error(error);
@@ -42,14 +66,20 @@ const Dashboard = () => {
   }, [dispatch, error, alert])
 
   const lineState = {
-    labels: ["Initial Amount", "Amount Earned"], // Make sure these are categorical labels
+    labels: (orders && orders.map(order => formatDate(order.createdAt))), // Make sure these are categorical labels
     datasets: [
       {
-        label: "TOTAL AMOUNT",
+        label: "TOTAL SALES",
         backgroundColor: ["tomato"],
         hoverBackgroundColor: ["rgb(197,72,49)"],
-        data: [0, totalAmount],
-      }
+        data: (orders && orders.map(order => order.totalPrice)),
+      },
+      {
+        label: "AVERAGE SALES",
+        backgroundColor: ["blue"],
+        hoverBackgroundColor: ["rgb(197,72,49)"],
+        data: calcAverage(),
+      },
     ]
   };
   const doughnutState = {
@@ -71,7 +101,7 @@ const Dashboard = () => {
         <div className="dashboardSummary">
           <div>
             <p>
-              Total Amount: <br /> Rs. {totalAmount && totalAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+              Total Sales: <br /> Rs. {totalAmount && totalAmount.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
             </p>
           </div>
           <div className='dashboardSummaryBox2'>
@@ -89,15 +119,17 @@ const Dashboard = () => {
             </Link>
           </div>
         </div>
-        <div className='lineChart'>
-          <Line
-            data={lineState}
-          />
-        </div>
-        <div className='doughnutChart'>
-          <Doughnut
-            data={doughnutState}
-          />
+        <div style={{ display: 'flex' }}>
+          <div className='lineChart'>
+            <Line
+              data={lineState}
+            />
+          </div>
+          <div className='doughnutChart'>
+            <Doughnut
+              data={doughnutState}
+            />
+          </div>
         </div>
       </div>
     </div>

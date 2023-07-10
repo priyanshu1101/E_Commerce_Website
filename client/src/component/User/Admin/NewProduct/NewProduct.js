@@ -19,6 +19,7 @@ const categories = [
     'Attire',
     'Camera',
     'Smartphone',
+    "Others",
 ];
 
 const NewProduct = () => {
@@ -29,7 +30,7 @@ const NewProduct = () => {
 
     const updateProductId = params.id;
 
-    const { error, success } = useSelector(state => state.productFunctionsForAdmin);
+    const { error, success, loading } = useSelector(state => state.productFunctionsForAdmin);
     const { product } = useSelector(state => state.productDetails)
 
     const [name, setName] = useState('');
@@ -110,14 +111,20 @@ const NewProduct = () => {
         myForm.set("description", description);
         myForm.set("category", category);
         myForm.set("Stock", stock);
-        images.forEach(image => {
-            myForm.append("images", image);
-        })
-        if (updateProductId !== undefined) {
-            dispatch(updateProduct(updateProductId, myForm));
+        if (images.length === 0) {
+            alert.error("Please upload product images");
+
         }
         else {
-            dispatch(createProduct(myForm));
+            images.forEach(image => {
+                myForm.append("images", image);
+            })
+            if (updateProductId !== undefined) {
+                dispatch(updateProduct(updateProductId, myForm));
+            }
+            else {
+                dispatch(createProduct(myForm));
+            }
         }
     };
 
@@ -237,7 +244,7 @@ const NewProduct = () => {
 
                                         </Grid>
                                         <Grid item xs={12}>
-                                            <Button type="submit" variant="contained" color="primary" fullWidth>
+                                            <Button type="submit" variant="contained" color="primary" fullWidth disabled={loading}>
                                                 {updateProductId ? "Update" : "Create"} Product
                                             </Button>
                                         </Grid>
@@ -247,7 +254,7 @@ const NewProduct = () => {
                         </Card>
                     </div>
                 </div>
-            </div>
+            </div >
         </>
     );
 };

@@ -201,7 +201,7 @@ export const fetchUserDetails = (userId) => async (dispatch) => {
 export const updateUser = (userId, userData) => async (dispatch) => {
     try {
         dispatch({ type: ADMIN_USER_UPDATE_REQUEST })
-        const config = { headers: { "Content-Type": "multipart/form-data" } };  
+        const config = { headers: { "Content-Type": "multipart/form-data" } };
         const { data } = await updateUserAPI(userId, userData, config);
         dispatch({
             type: ADMIN_USER_UPDATE_SUCCESS,

@@ -12,13 +12,30 @@ import { Button } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import MetaData from '../../../../MetaData';
 
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import the default styles
+
+import { confirmAlert } from 'react-confirm-alert'; // Import the confirmation dialog
+
+
 const OrderList = () => {
     const dispatch = useDispatch();
     const alert = useAlert();
     const { orders, loading, error, success } = useSelector(state => state.orderFunctionsForAdmin)
 
     const handleDeleteButton = (id) => {
-        dispatch(deleteOrder(id));
+        confirmAlert({
+            title: 'Confirm Delete',
+            message: 'Are you sure you want to delete this order?',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => dispatch(deleteOrder(id)),
+                },
+                {
+                    label: 'No',
+                },
+            ],
+        });
     }
 
     useEffect(() => {
@@ -87,7 +104,7 @@ const OrderList = () => {
                         <Link to={`/admin/order/update/${params.getValue(params.id, 'id')}`}>
                             <EditIcon />
                         </Link>
-                        <Button onClick={() => handleDeleteButton(params.id)}>
+                        <Button onClick={() => handleDeleteButton(params.id)} disabled={loading}>
                             <DeleteIcon />
                         </Button>
                     </div>

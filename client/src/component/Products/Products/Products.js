@@ -27,7 +27,8 @@ const Products = () => {
         "Tops",
         "Attire",
         "Camera",
-        "Smartphone"
+        "Smartphone",
+        "Others"
     ];
     const keyword = params.keyword;
 

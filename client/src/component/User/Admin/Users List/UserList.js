@@ -11,6 +11,10 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import MetaData from '../../../../MetaData';
 import { deleteUser, fetchUsers } from '../../../../actions/userAction';
 import { ADMIN_USER_DELETE_RESET, CLEAR_ERRORS } from '../../../../constants/userConstants';
+import { confirmAlert } from 'react-confirm-alert'; // Import the confirmation dialog
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import the default styles
+import { FcGoogle } from 'react-icons/fc'
+import Website from '../../../../images/Website.ico';
 import './UserList.css'
 
 const UserList = () => {
@@ -19,9 +23,20 @@ const UserList = () => {
     const { users, loading, error, success } = useSelector(state => state.userFunctionForAdmin)
     const { user } = useSelector(state => state.user);
 
-    console.log(loading);
     const handleDeleteButton = (id) => {
-        dispatch(deleteUser(id));
+        confirmAlert({
+            title: 'Confirm Delete',
+            message: 'Are you sure you want to delete this user?',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => dispatch(deleteUser(id)),
+                },
+                {
+                    label: 'No',
+                },
+            ],
+        });
     }
 
     useEffect(() => {
@@ -40,8 +55,8 @@ const UserList = () => {
         {
             field: 'name',
             headerName: 'Name',
-            minWidth: 200,
-            flex: 0.2
+            minWidth: 150,
+            flex: 0.1
         },
         {
             field: 'email',
@@ -69,6 +84,19 @@ const UserList = () => {
             }
         },
         {
+            field: 'usertype',
+            headerName: 'User Type',
+            minWidth: 150,
+            flex: 0.1,
+            renderCell: params => {
+                return (
+                    <div style={{ textAlign: 'center' }}>
+                        {params.value === "google" ? <FcGoogle size={25} style={{ marginLeft: '8px' }} /> : <img src={Website} alt='Website' style={{ width: '45px', marginLeft: 'auto' }} />}
+                    </div>
+                );
+            }
+        },
+        {
             field: 'actions',
             headerName: 'Actions',
             type: 'number',
@@ -81,7 +109,7 @@ const UserList = () => {
                         <Link to={`/admin/user/update/${params.getValue(params.id, 'id')}`}>
                             <EditIcon />
                         </Link>
-                        <Button onClick={() => handleDeleteButton(params.id)}>
+                        <Button onClick={() => handleDeleteButton(params.id)} disabled={loading}>
                             <DeleteIcon />
                         </Button>
                     </div>
@@ -96,6 +124,7 @@ const UserList = () => {
         users.forEach(user => {
             rows.push({
                 id: user._id,
+                usertype: user.userType,
                 name: user.name,
                 email: user.email,
                 role: user.role === 'admin' ? "Admin" : "User"

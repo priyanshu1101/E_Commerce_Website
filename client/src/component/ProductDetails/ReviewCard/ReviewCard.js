@@ -5,7 +5,6 @@ import './ReviewCard.css';
 
 const ReviewCard = ({ review }) => {
   const [userReview, setUserReview] = useState(review);
-  console.log(userReview);
   const options = {
     edit: false,
     color2: '#ffa41c',

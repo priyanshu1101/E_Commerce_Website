@@ -62,8 +62,8 @@ const ItemCart = () => {
                 </div>
             </div>
             :
-            <div className="item-cart-container">
-                <MetaData title="Item Cart" />  
+            <div className="item-cart-container" style={{ minHeight: '100vh' }}>
+                <MetaData title="Item Cart" />
                 <div className="left-div">
                     <h2>Cart</h2>
                     {cartItems.map(item => (

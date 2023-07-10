@@ -270,7 +270,9 @@ export const updateProfile = async (req, res) => {
 // Get all users -- Admin
 export const getAllUsers = async (req, res) => {
     try {
-        const users = await User.find();
+        const websiteUsers = await User.find();
+        const googleUsers = await googleUser.find();
+        const users = [...websiteUsers, ...googleUsers];
         if (users.length === 0) {
             throw new Error("No User Found!!");
         }
@@ -284,7 +286,7 @@ export const getAllUsers = async (req, res) => {
 // Get single user details -- Admin
 export const getSingleUser = async (req, res) => {
     try {
-        const user = await User.findById(req.params.id);
+        const user = await User.findById(req.params.id) || await googleUser.findById(req.params.id);
         if (!user)
             throw new Error("No user found with User ID : " + req.params.id);
         res.status(200).json({ success: true, user });
@@ -298,16 +300,25 @@ export const updateUserRole = async (req, res) => {
     try {
         const updatedUser = {
             name: req.body.name,
-            // email: req.body.email,
             role: req.body.role
         }
 
-        const user = await User.findByIdAndUpdate(req.params.id, updatedUser,
-            {
-                new: true.valueOf,
-                runValidators: true,
-            });
+        const websiteUser = await User.findById(req.params.id);
 
+        if (!websiteUser) {
+            const user = await googleUser.findByIdAndUpdate(req.params.id, updatedUser,
+                {
+                    new: true.valueOf,
+                    runValidators: true,
+                });
+        }
+        else {
+            const user = await User.findByIdAndUpdate(req.params.id, updatedUser,
+                {
+                    new: true.valueOf,
+                    runValidators: true,
+                });
+        }
         res.status(200).json({ success: true, message: "Profile Updated Successfully!!" })
     }
     catch (error) {
@@ -319,14 +330,16 @@ export const updateUserRole = async (req, res) => {
 // Delete user -- Admin
 export const deleteUser = async (req, res) => {
     try {
-        const user = await User.findById(req.params.id);
-        if (!user)
+        const websiteUser = await User.findById(req.params.id);
+        const googleUsers = await googleUser.findById(req.params.id);
+        if (!websiteUser && !googleUsers)
             throw new Error("No User Found!!");
         if (req.params.id === req.user.id)
             throw new Error("Can't delete yourself !!");
 
         // Delete images from cloudinary
-        await cloudinary.v2.uploader.destroy(user.avatar.public_id);
+        if (websiteUser)
+            await cloudinary.v2.uploader.destroy(websiteUser.avatar.public_id);
 
         // Delete user reviews
         const products = await Product.find();
@@ -338,7 +351,11 @@ export const deleteUser = async (req, res) => {
             await product.save();
         }
 
-        await User.findByIdAndDelete(req.params.id);
+        if (websiteUser)
+            await User.findByIdAndDelete(req.params.id);
+        else if (googleUsers)
+            await googleUser.findByIdAndDelete(req.params.id);
+
         res.status(200).json({ success: true, message: "User Deleted Successfully!!" });
     }
     catch (error) {

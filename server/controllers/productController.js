@@ -1,28 +1,32 @@
+import googleUser from "../models/googleUserModel.js";
 import Product from "../models/productModel.js";
+import User from "../models/userModel.js";
 import ApiFeatures from "../utils/apifeatures.js";
 import cloudinary from 'cloudinary';
 
 // Create Product -- Only for admin
 export const createProduct = async (req, res, next) => {
     try {
-        let images = [];
-        if (typeof req.body.images === "string") {
-            images.push(req.body.images);
+        if (req.body.images) {
+            let images = [];
+            if (typeof req.body.images === "string") {
+                images.push(req.body.images);
+            }
+            else {
+                images = req.body.images;
+            }
+            const imageLinks = [];
+            for (var i = 0; i < images.length; i++) {
+                const myCloud = await cloudinary.v2.uploader.upload(images[i], {
+                    folder: "products",
+                });
+                imageLinks.push({
+                    public_id: myCloud.public_id,
+                    url: myCloud.url
+                });
+            }
+            req.body.images = imageLinks;
         }
-        else {
-            images = req.body.images;
-        }
-        const imageLinks = [];
-        for (var i = 0; i < images.length; i++) {
-            const myCloud = await cloudinary.v2.uploader.upload(images[i], {
-                folder: "products",
-            });
-            imageLinks.push({
-                public_id: myCloud.public_id,
-                url: myCloud.url
-            });
-        }
-        req.body.images = imageLinks;
         req.body.createdBy = req.user._id;
         const product = await Product.create(req.body);
         res.status(201).json({
@@ -75,14 +79,28 @@ export const getAllProductsForAdmin = async (req, res) => {
 }
 
 //Get product details
+
 export const getProductDetails = async (req, res, next) => {
     try {
-        const product = await Product.findById(req.params.id).populate({ path: "reviews.user", select: "avatar.url", });
-        if (!product) {
+        const productFromData = await Product.findById(req.params.id);
+
+        if (!productFromData) {
             return res.status(500).json({
                 success: false,
-                message: "Product not found"
-            })
+                message: 'Product not found'
+            });
+        }
+
+        const product = { ...productFromData.toObject() };
+
+        for (let i = 0; i < product.reviews.length; i++) {
+            const user = await User.findById(product.reviews[i].user._id).select('avatar -_id');
+            if (user) {
+                product.reviews[i].user = user;
+            } else {
+                const googleUsers = await googleUser.findById(product.reviews[i].user._id).select('avatar -_id');
+                product.reviews[i].user = googleUsers;
+            }
         }
         res.status(200).json({
             success: true,
@@ -93,9 +111,8 @@ export const getProductDetails = async (req, res, next) => {
             success: false,
             message: error.message
         });
-
     }
-}
+};
 
 
 //Update the product -- Admin

@@ -11,16 +11,30 @@ import { DataGrid } from '@material-ui/data-grid';
 import { Button } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SideBar from '../Sidebar/Sidebar';
+import { confirmAlert } from 'react-confirm-alert'; // Import the confirmation dialog
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import the default styles
 import './ProductList.css';
 
 const ProductList = () => {
     const dispatch = useDispatch();
     const alert = useAlert();
     const { loading, products, error } = useSelector(state => state.products);
-    const { success, error: DeleteError } = useSelector(state => state.productFunctionsForAdmin)
+    const { success, error: DeleteError, loading: functionLoading } = useSelector(state => state.productFunctionsForAdmin)
 
     const handleDeleteButton = (id) => {
-        dispatch(deleteProduct(id));
+        confirmAlert({
+            title: 'Confirm Delete',
+            message: 'Are you sure you want to delete this product?',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => dispatch(deleteProduct(id)),
+                },
+                {
+                    label: 'No',
+                },
+            ],
+        });
     }
 
     const columns = [
@@ -32,7 +46,7 @@ const ProductList = () => {
             renderCell: params => {
                 return (
                     <div className="image-cell">
-                        <img src={params.value.image} alt={params.value.name} />
+                        <img src={params.value?.image} alt={params.value.name} />
                     </div>
                 );
             }
@@ -76,7 +90,7 @@ const ProductList = () => {
                         <Link to={`/admin/product/update/${params.getValue(params.id, 'id')}`}>
                             <EditIcon />
                         </Link>
-                        <Button onClick={() => handleDeleteButton(params.id)}>
+                        <Button onClick={() => handleDeleteButton(params.id)} disabled={functionLoading}>
                             <DeleteIcon />
                         </Button>
                     </div>
@@ -106,7 +120,7 @@ const ProductList = () => {
     products &&
         products.forEach(item => {
             rows.push({
-                preview: { image: item.images[0].url, name: item.name },
+                preview: { image: item.images.length === 0 ? [] : item.images[0].url, name: item.name },
                 id: item._id,
                 stock: item.Stock,
                 price: item.price,

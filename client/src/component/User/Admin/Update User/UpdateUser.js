@@ -9,6 +9,8 @@ import SideBar from "../Sidebar/Sidebar";
 import { ADMIN_USER_UPDATE_RESET, CLEAR_ERRORS } from "../../../../constants/userConstants";
 import { fetchUserDetails, updateUser } from "../../../../actions/userAction";
 import { Input } from "@mui/material";
+import { FcGoogle } from 'react-icons/fc'
+import Website from '../../../../images/Website.ico';
 import "./UpdateUser.css";
 
 const UpdateUser = () => {
@@ -90,6 +92,12 @@ const UpdateUser = () => {
                                                 <b className={user.role === "admin" ? 'redColor' : 'greenColor'} style={{ fontSize: '20px' }}>
                                                     {user && user.role === "admin" ? "Admin" : "User"}
                                                 </b>
+                                            </div>
+                                            <div>
+                                                <p>User Type:</p>
+                                                <span>
+                                                    {user && user.userType === "google" ? <FcGoogle size={25}/> : <img src={Website} alt="Website" style={{ width: '30px' }} />}
+                                                </span>
                                             </div>
                                         </div>
                                         <hr />

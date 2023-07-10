@@ -69,12 +69,12 @@
 }
 
 .lineChart {
-    width: 80%;
+    width: 40vmax;
     margin: auto;
 }
 
 .doughnutChart {
-    width: 30vmax;
+    width: 20vmax;
     margin: auto;
 }
 
