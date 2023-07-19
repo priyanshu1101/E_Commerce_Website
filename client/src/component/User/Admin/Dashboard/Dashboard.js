@@ -45,12 +45,13 @@ const Dashboard = () => {
   };
 
   const calcAverage = () => {
-    const averages = [];
+    const averages = [0];
     var sum = 0;
     if (orders)
       for (let i = 0; i < orders.length; i++) {
         sum += orders[i].totalPrice;
-        averages.push(sum / (i + 1));
+        if (i !== 0)
+          averages.push(sum / (i + 1));
       }
     return averages;
   }
