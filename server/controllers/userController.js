@@ -348,7 +348,7 @@ export const deleteUser = async (req, res) => {
             product.numOfReviews = product.reviews.length;
             const ratings = product.reviews.reduce((total, review) => total + review.rating, 0);
             product.ratings = product.numOfReviews === 0 ? 0 : (ratings / product.numOfReviews);
-            await product.save();
+            await product.save({ validateBeforeSave: false });
         }
 
         if (websiteUser)

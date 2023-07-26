@@ -87,7 +87,7 @@ const ProductList = () => {
             renderCell: params => {
                 return (
                     <div className="actions-cell">
-                        <Link to={`/admin/product/update/${params.getValue(params.id, 'id')}`}>
+                        <Link to={`/admin/product/update/${params.getValue(params.id, 'id')}`} disabled={functionLoading}>
                             <EditIcon />
                         </Link>
                         <Button onClick={() => handleDeleteButton(params.id)} disabled={functionLoading}>
