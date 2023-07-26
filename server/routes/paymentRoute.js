@@ -5,6 +5,6 @@ import { processPayment, sendStripeApiKey } from "../controllers/paymentControll
 const router = express.Router();
 
 router.post('/process', isAuthenticatedUser, processPayment)
-router.get('/getStripeApiKey', isAuthenticatedUser, sendStripeApiKey);
+router.get('/getStripeApiKey', sendStripeApiKey);
 
 export default router;
