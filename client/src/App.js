@@ -51,6 +51,12 @@ export const App = () => {
     } catch (error) {
     }
   }
+  const userVisit = async () => {
+    try {
+      await axios.post("/user/visited");
+    } catch (error) {
+    }
+  }
   React.useEffect(() => {
     webfont.load({
       google: {
@@ -58,6 +64,7 @@ export const App = () => {
       }
     })
     getApiKey();
+    userVisit();
     dispatch(loadUser());
   }, [dispatch]);
   window.addEventListener("contextmenu", (e) => e.preventDefault());

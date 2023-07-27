@@ -12,6 +12,8 @@ import bodyParser from "body-parser";
 import fileUpload from "express-fileupload";
 import cloudinary from 'cloudinary';
 import cors from 'cors';
+import axios from "axios";
+import IpInfo from "./models/ipModel.js";
 
 dotenv.config();
 

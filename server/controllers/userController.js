@@ -1,5 +1,6 @@
 import googleUser from "../models/googleUserModel.js";
 import User from "../models/userModel.js";
+import IpInfo from "../models/ipModel.js";
 import sendEmail from "../utils/sendEmail.js";
 import cloudinary from 'cloudinary';
 import Crypto from 'crypto';
@@ -363,4 +364,39 @@ export const deleteUser = async (req, res) => {
     }
 }
 
+// Check user visit
+export const userVisited = async (req, res) => {
+    try {
+        const clientIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 
+        const firstIPAddress = clientIP.split(',')[0].trim();
+
+        const { data } = await axios.get(`https://ipinfo.io/${firstIPAddress}?token=${process.env.IpToken}`);
+        const { ip, city, region, country, loc, postal, timezone, abuse } = data;
+
+        // Check if the IP already exists in the database
+        const existingIpInfo = await IpInfo.findOne({ ip });
+
+        if (existingIpInfo) {
+            await existingIpInfo.save();
+            return res.json({ message: 'IP information updated successfully.' });
+        } else {
+            // If the IP does not exist, create a new record
+            const newIpInfo = new IpInfo({
+                ip,
+                city,
+                region,
+                country,
+                loc,
+                postal,
+                timezone,
+                abuse,
+            });
+            await newIpInfo.save({ validateBeforeSave: false });
+
+            return res.json({ message: 'New IP information added successfully.' });
+        }
+    } catch (err) {
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+}
