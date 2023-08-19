@@ -1,5 +1,7 @@
+import googleUser from "../models/googleUserModel.js";
 import Order from "../models/orderModel.js";
 import Product from "../models/productModel.js";
+import User from "../models/userModel.js";
 
 // Create new order 
 export const newOrder = async (req, res) => {
@@ -20,11 +22,12 @@ export const newOrder = async (req, res) => {
 export const getSingleOrder = async (req, res) => {
     //  Need to find out method to populate using googleUser collection
     try {
-        const order = await Order.findById(req.params.id).populate('user', "name email");
+        const order = await Order.findById(req.params.id);
+        const user = await User.findById(order.user._id) || await googleUser.findById(order.user._id);
         if (!order) {
             throw new Error("Invalid order ID !!");
         }
-        res.status(200).json({ success: true, order })
+        res.status(200).json({ success: true, order: { ...order._doc, user: user } })
     } catch (error) {
         res.status(400).json({ success: false, message: error.message });
     }
