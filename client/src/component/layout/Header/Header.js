@@ -3,15 +3,14 @@ import logo from "../../../images/logo.png"
 import { ReactNavbar } from "overlay-navbar";
 import { RiSearchLine, RiUserLine, RiShoppingCartLine } from "react-icons/ri";
 
-
 const Header = () => {
     const options = {
-        burgerColorHover: "#eb4034",
+        burgerColorHover: "var(--primary-600)",
         logo,
         logoWidth: "20vmax",
-        navColor1: "#fff5f5",
+        navColor1: "white",
         logoHoverSize: "10px",
-        logoHoverColor: "#eb4034",
+        logoHoverColor: "var(--primary-600)",
         link1Text: "Home",
         link2Text: "Products",
         link3Text: "Contact",
@@ -21,26 +20,28 @@ const Header = () => {
         link3Url: "/contact",
         link4Url: "/about",
         link1Size: "1.3vmax",
-        link1Color: "rgba(35, 35, 35,0.8)",
+        link1Color: "var(--gray-700)",
         nav1justifyContent: "flex-end",
         nav2justifyContent: "flex-end",
         nav3justifyContent: "flex-start",
         nav4justifyContent: "flex-start",
-        link1ColorHover: "#eb4034",
+        link1ColorHover: "var(--primary-600)",
         link1Margin: "1vmax",
-        profileIconColor: "rgba(35, 35, 35,0.8)",
-        searchIconColor: "rgba(35, 35, 35,0.8)",
-        cartIconColor: "rgba(35, 35, 35,0.8)",
-        profileIconColorHover: "#eb4034",
-        searchIconColorHover: "#eb4034",
-        cartIconColorHover: "#eb4034",
+        profileIconColor: "var(--gray-700)",
+        searchIconColor: "var(--gray-700)",
+        cartIconColor: "var(--gray-700)",
+        profileIconColorHover: "var(--primary-600)",
+        searchIconColorHover: "var(--primary-600)",
+        cartIconColorHover: "var(--primary-600)",
         cartIconMargin: "1vmax",
         profileIcon: true,
-        profileIconUrl:"/login",
+        profileIconUrl: "/login",
         ProfileIconElement: RiUserLine,
         searchIcon: true,
+        searchIconUrl: "/search",
         SearchIconElement: RiSearchLine,
         cartIcon: true,
+        cartIconUrl: "/cart",
         CartIconElement: RiShoppingCartLine
     };
 
@@ -48,4 +49,5 @@ const Header = () => {
         <ReactNavbar {...options} />
     )
 }
+
 export default Header;

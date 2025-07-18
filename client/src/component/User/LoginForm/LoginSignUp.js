@@ -4,11 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { forgotPassword, login, register } from '../../../actions/userAction';
 import { useNavigate } from "react-router-dom";
 import { useAlert } from 'react-alert'
-import { Audio } from 'react-loader-spinner';
 import profilePng from '../../../images/Profile.jpg';
 import { CLEAR_ERRORS } from '../../../constants/productConstants';
 import { FORGOT_PASSWORD_RESET } from '../../../constants/userConstants';
 import MetaData from '../../../MetaData';
+import { FaUser, FaEnvelope, FaLock, FaImage, FaArrowLeft } from 'react-icons/fa';
 import './LoginSignUp.css';
 
 const LoginSignUp = ({ location }) => {
@@ -85,6 +85,7 @@ const LoginSignUp = ({ location }) => {
     e.preventDefault();
     setIsLogin(!isLogin);
     setShowForgotPassword(false);
+    setUser({ name: '', email: '', password: '', avatar: profilePng });
   };
 
   const redirect = window.location.search ? window.location.search.split('=')[1] : "/account";
@@ -106,122 +107,174 @@ const LoginSignUp = ({ location }) => {
     }
   }, [error, isAuthenticated, Navigate, dispatch, forgotPassworderror, message, alert, redirect]);
 
-  return (
-    (loading || forgotPasswordeLoading) ? (
+  if (loading || forgotPasswordeLoading) {
+    return (
       <div className="loader">
-        <Audio color="#5953bc" height={150} width={150} />
+        <div className="loading-spinner"></div>
+        <span className="loading-text">Please wait...</span>
       </div>
-    ) : (
-      <div className="login-signup-container"> {/* Updated class name */}
-        <div className={`login-signup-card ${isLogin ? 'login' : 'register'}`}>
-          <div className="form-card">
-            {!showForgotPassword ? (
-              <>
-                <form onSubmit={handleSubmit} encType={isLogin ? "application/json" : "multipart/form-data"}>
-                  <h2>{isLogin ? 'Login' : 'Register'}</h2>
-                  {!isLogin && (
-                    <>
-                      <MetaData title="Register Form" />
-                      <div className="form-group">
-                        <label htmlFor="name">Name</label>
-                        <input
-                          type="text"
-                          id="name"
-                          value={name}
-                          onChange={handleFormChange}
-                          required
-                        />
-                      </div>
-                    </>
-                  )}
-                  <MetaData title="Login Form" />
-                  <div className="form-group">
-                    <label htmlFor="email">Email</label>
-                    <input
-                      type="email"
-                      id="email"
-                      value={email}
-                      onChange={handleFormChange}
-                      required
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="password">Password</label>
-                    <input
-                      type="password"
-                      id="password"
-                      value={password}
-                      onChange={handleFormChange}
-                      required
-                    />
-                  </div>
-                  {!isLogin && (
-                    <div className="form-group">
-                      <label htmlFor="avatar">Profile Picture</label>
-                      <div className="avatar-upload">
-                        <input
-                          type="file"
-                          name="avatar"
-                          accept="image/*"
-                          id="avatar"
-                          onChange={handleFormChange}
-                        />
-                        <div className="avatar-preview">
-                          <img src={avatar} alt="Avatar Preview" />
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                  <button type="submit" className="submit-button">
-                    {isLogin ? 'Login' : 'Register'}
-                  </button>
-                  {isLogin && (
-                    <div className="forgot-password">
-                      <button onClick={() => setShowForgotPassword(true)}>Forgot Password?</button>
-                    </div>
-                  )}
+    );
+  }
 
-                </form>
-                <div className="switch-option">
-                  {isLogin ? 'Need an account?' : 'Already have an account?'}
-                  <a href="/#" onClick={handleSwitch}>{isLogin ? 'Register' : 'Login'}</a>
-                </div>
-              </>
-            ) : (
-              <div className="forgot-password-form">
-                <MetaData title="Forgot Password" />
-                <h2>Forgot Password</h2>
-                <p>Please enter your email address to reset your password.</p>
-                <form onSubmit={handleForgotPassword}>
+  return (
+    <div className="login-signup-container">
+      <MetaData title={showForgotPassword ? "Forgot Password" : (isLogin ? "Login" : "Register")} />
+      
+      <div className="login-signup-card">
+        <div className="form-header">
+          <h2>
+            {showForgotPassword ? 'Reset Password' : (isLogin ? 'Welcome Back' : 'Create Account')}
+          </h2>
+          <p>
+            {showForgotPassword 
+              ? 'Enter your email to reset your password' 
+              : (isLogin 
+                ? 'Sign in to your account to continue' 
+                : 'Join us and start shopping today'
+              )
+            }
+          </p>
+        </div>
+
+        <div className="form-content">
+          {!showForgotPassword ? (
+            <>
+              <form onSubmit={handleSubmit} encType={isLogin ? "application/json" : "multipart/form-data"}>
+                {!isLogin && (
                   <div className="form-group">
-                    <label htmlFor="email">Email</label>
+                    <label htmlFor="name">
+                      <FaUser size={14} style={{ marginRight: '0.5rem' }} />
+                      Full Name
+                    </label>
                     <input
-                      type="email"
-                      id="email"
-                      value={email}
+                      type="text"
+                      id="name"
+                      className="form-input"
+                      value={name}
                       onChange={handleFormChange}
+                      placeholder="Enter your full name"
                       required
                     />
                   </div>
-                  <button type="submit" className="submit-button">
-                    Forgot Password
-                  </button>
-                </form>
-                <div className="switch-option">
-                  Remember your password?
-                  <a href='/#' onClick={(e) => { e.preventDefault(); setShowForgotPassword(false) }}>Login</a>
+                )}
+
+                <div className="form-group">
+                  <label htmlFor="email">
+                    <FaEnvelope size={14} style={{ marginRight: '0.5rem' }} />
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    className="form-input"
+                    value={email}
+                    onChange={handleFormChange}
+                    placeholder="Enter your email address"
+                    required
+                  />
                 </div>
+
+                <div className="form-group">
+                  <label htmlFor="password">
+                    <FaLock size={14} style={{ marginRight: '0.5rem' }} />
+                    Password
+                  </label>
+                  <input
+                    type="password"
+                    id="password"
+                    className="form-input"
+                    value={password}
+                    onChange={handleFormChange}
+                    placeholder="Enter your password"
+                    required
+                  />
+                </div>
+
+                {!isLogin && (
+                  <div className="form-group">
+                    <label htmlFor="avatar">
+                      <FaImage size={14} style={{ marginRight: '0.5rem' }} />
+                      Profile Picture
+                    </label>
+                    <div className="avatar-upload">
+                      <input
+                        type="file"
+                        name="avatar"
+                        accept="image/*"
+                        id="avatar"
+                        className="form-input"
+                        onChange={handleFormChange}
+                      />
+                      <div className="avatar-preview">
+                        <img src={avatar} alt="Avatar Preview" />
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                <button type="submit" className="submit-button" disabled={loading}>
+                  {loading ? 'Please wait...' : (isLogin ? 'Sign In' : 'Create Account')}
+                </button>
+
+                {isLogin && (
+                  <div className="forgot-password">
+                    <button type="button" onClick={() => setShowForgotPassword(true)}>
+                      Forgot your password?
+                    </button>
+                  </div>
+                )}
+              </form>
+
+              <div className="divider">
+                <span>or continue with</span>
               </div>
-            )}
-          </div>
-          {!showForgotPassword && (
-            <div className="google-auth">
-              <GoogleAuth />
+
+              <div className="google-auth">
+                <GoogleAuth />
+              </div>
+
+              <div className="switch-option">
+                {isLogin ? "Don't have an account?" : 'Already have an account?'}
+                <a href="#" onClick={handleSwitch}>
+                  {isLogin ? 'Sign up' : 'Sign in'}
+                </a>
+              </div>
+            </>
+          ) : (
+            <div className="forgot-password-form">
+              <form onSubmit={handleForgotPassword}>
+                <div className="form-group">
+                  <label htmlFor="email">
+                    <FaEnvelope size={14} style={{ marginRight: '0.5rem' }} />
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    className="form-input"
+                    value={email}
+                    onChange={handleFormChange}
+                    placeholder="Enter your email address"
+                    required
+                  />
+                </div>
+
+                <button type="submit" className="submit-button" disabled={forgotPasswordeLoading}>
+                  {forgotPasswordeLoading ? 'Sending...' : 'Send Reset Link'}
+                </button>
+              </form>
+
+              <div className="back-to-login">
+                <a href="#" onClick={(e) => { e.preventDefault(); setShowForgotPassword(false) }}>
+                  <FaArrowLeft size={12} style={{ marginRight: '0.5rem' }} />
+                  Back to login
+                </a>
+              </div>
             </div>
           )}
         </div>
-      </div >
-    )
+      </div>
+    </div>
   );
 };
 

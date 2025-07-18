@@ -1,23 +1,102 @@
-.google-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 200px;
-    height: 40px;
-    background-color: #db4437;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+.google-auth-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0.875rem 1rem;
+  background: white;
+  border: 2px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--gray-700);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  gap: 0.75rem;
+  text-decoration: none;
 }
 
-.google-button:hover {
-    background-color: #c62828;
+.google-auth-button:hover {
+  border-color: var(--gray-300);
+  background: var(--gray-50);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.google-auth-button:active {
+  transform: translateY(0);
 }
 
 .google-icon {
-    margin-right: 8px;
+  width: 20px;
+  height: 20px;
+  background: linear-gradient(45deg, #4285f4, #34a853, #fbbc05, #ea4335);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.google-auth-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.google-auth-button:disabled:hover {
+  border-color: var(--gray-200);
+  background: white;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Loading state */
+.google-auth-button.loading {
+  pointer-events: none;
+}
+
+.google-auth-button.loading .google-icon {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Error state */
+.google-auth-button.error {
+  border-color: var(--error-300);
+  background: var(--error-50);
+  color: var(--error-700);
+}
+
+.google-auth-button.error:hover {
+  border-color: var(--error-400);
+  background: var(--error-100);
+}
+
+/* Success state */
+.google-auth-button.success {
+  border-color: var(--success-300);
+  background: var(--success-50);
+  color: var(--success-700);
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .google-auth-button {
+    padding: 0.75rem;
+    font-size: 0.875rem;
+  }
+  
+  .google-icon {
+    width: 18px;
+    height: 18px;
+    font-size: 11px;
+  }
 }

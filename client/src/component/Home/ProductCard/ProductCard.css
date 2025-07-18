@@ -1,69 +1,281 @@
 .productCard {
-  width: 14.5vmax;
+  background: white;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--gray-200);
+  transition: all 0.3s ease;
+  text-decoration: none;
+  color: inherit;
   display: flex;
   flex-direction: column;
+  height: 100%;
+  position: relative;
+}
+
+.productCard:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-xl);
   text-decoration: none;
-  color: rgb(48, 48, 48);
-  margin: 2vmax;
-  transition: all 0.5s;
-  padding: 1.5vmax 0.75vmax;
-  border-radius: 2%;
+  color: inherit;
 }
 
-.productCard>img {
-  width: 11vmax;
-  height: 15vmax;
-  object-fit: contain;
-  padding: 1vmax;
-  border-radius: 2%;
+.product-image-container {
+  position: relative;
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+  background: var(--gray-50);
 }
 
-.productCard>div {
-  margin: 0.5vmax;
+.productCard img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.productCard:hover img {
+  transform: scale(1.05);
+}
+
+.product-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: var(--primary-500);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-xl);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.product-badge.sale {
+  background: var(--error-500);
+}
+
+.product-badge.new {
+  background: var(--success-500);
+}
+
+.product-content {
+  padding: 1.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--gray-800);
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.product-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.rating-stars {
   display: flex;
   align-items: center;
 }
 
-.productCard>div>span {
-  margin-left: 0.5vmax;
-  font: 300 0.7vmax "Roboto";
+.rating-text {
+  font-size: 0.875rem;
+  color: var(--gray-600);
+  font-weight: 500;
 }
 
-.productCard>p {
-  font-family: "Roboto";
-  font-size: 1.2vmax;
-  margin: 1vmax 0.5vmax;
-  margin-bottom: 0;
+.product-price {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
 }
 
-.productCard>span.price {
-  margin: 0.5vmax;
-  color: tomato;
-  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
-  font-size: 1vmax;
+.price-current {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary-600);
 }
 
-.productCard:hover {
-  box-shadow: 0 0 5px rgba(15, 15, 15, 0.26);
-  transform: translateY(-1vmax);
+.price-original {
+  font-size: 1rem;
+  color: var(--gray-500);
+  text-decoration: line-through;
 }
 
-@media screen and (max-width: 600px) {
-  .productCard>p {
-    font-size: 1.7vmax;
+.price-discount {
+  background: var(--success-100);
+  color: var(--success-700);
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.product-actions {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--gray-200);
+  background: var(--gray-50);
+  display: flex;
+  gap: 0.75rem;
+}
+
+.btn-add-cart {
+  flex: 1;
+  background: var(--primary-600);
+  color: white;
+  border: none;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-add-cart:hover {
+  background: var(--primary-700);
+  transform: translateY(-1px);
+}
+
+.btn-wishlist {
+  width: 2.75rem;
+  height: 2.75rem;
+  background: white;
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--gray-600);
+}
+
+.btn-wishlist:hover {
+  background: var(--error-50);
+  border-color: var(--error-300);
+  color: var(--error-600);
+}
+
+.stock-status {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-xl);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.stock-status.in-stock {
+  background: var(--success-100);
+  color: var(--success-700);
+}
+
+.stock-status.out-of-stock {
+  background: var(--error-100);
+  color: var(--error-700);
+}
+
+.stock-status.low-stock {
+  background: var(--warning-100);
+  color: var(--warning-700);
+}
+
+/* Loading State */
+.productCard.loading {
+  pointer-events: none;
+}
+
+.productCard.loading .product-image-container {
+  background: linear-gradient(90deg, var(--gray-200) 25%, var(--gray-100) 50%, var(--gray-200) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.productCard.loading .product-title,
+.productCard.loading .rating-text,
+.productCard.loading .price-current {
+  background: linear-gradient(90deg, var(--gray-200) 25%, var(--gray-100) 50%, var(--gray-200) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  color: transparent;
+  border-radius: var(--radius-sm);
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
   }
-
-  .productCard>div {
-    margin: 0vmax;
-    display: block;
+  100% {
+    background-position: 200% 0;
   }
+}
 
-  .productCard>span.price {
-    font-size: 1.5vmax;
+/* Responsive Design */
+@media (max-width: 768px) {
+  .product-image-container {
+    height: 200px;
   }
+  
+  .product-content {
+    padding: 1rem;
+  }
+  
+  .product-title {
+    font-size: 1rem;
+  }
+  
+  .price-current {
+    font-size: 1.25rem;
+  }
+  
+  .product-actions {
+    padding: 0.75rem 1rem;
+    flex-direction: column;
+  }
+  
+  .btn-wishlist {
+    width: 100%;
+    height: 2.5rem;
+  }
+}
 
-  .productCard>div>span {
-    margin: 0 0.5vmax;
-    font: 300 1vmax "Roboto";
+@media (max-width: 480px) {
+  .product-image-container {
+    height: 180px;
+  }
+  
+  .product-rating {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+  
+  .product-price {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
   }
 }

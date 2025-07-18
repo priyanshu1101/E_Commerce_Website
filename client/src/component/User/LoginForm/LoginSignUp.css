@@ -1,156 +1,341 @@
 .login-signup-container {
-    /* Updated class name */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-.login {
-    width: 30vh;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--primary-50) 0%, var(--secondary-50) 100%);
+  padding: 2rem 1rem;
 }
 
 .login-signup-card {
-    max-width: 400px;
-    padding: 40px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-color: #ffffff;
-    transition: transform 0.3s ease;
+  width: 100%;
+  max-width: 450px;
+  background: white;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xl);
+  border: 1px solid var(--gray-200);
+  overflow: hidden;
+  animation: fadeIn 0.5s ease-out;
 }
 
-.login-signup-card.login {
-    /* Updated class name */
-    background-color: #f5f5f5;
+.form-header {
+  background: linear-gradient(135deg, var(--primary-600) 0%, var(--secondary-600) 100%);
+  color: white;
+  padding: 2rem;
+  text-align: center;
 }
 
-.login-signup-card.register {
-    /* Updated class name */
-    background-color: #f5f5f5;
+.form-header h2 {
+  font-size: 1.875rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
 }
 
-.login-signup-card h2 {
-    text-align: center;
-    margin-bottom: 30px;
+.form-header p {
+  opacity: 0.9;
+  font-size: 0.9rem;
 }
 
-.login-signup-card .form-group {
-    margin-bottom: 20px;
+.form-content {
+  padding: 2rem;
 }
 
-.login-signup-card label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: 500;
+.form-group {
+  margin-bottom: 1.5rem;
 }
 
-.login-signup-card input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #cccccc;
-    border-radius: 4px;
-    font-size: 14px;
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--gray-700);
+  font-size: 0.875rem;
 }
 
-.login-signup-card .submit-button {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    border: none;
-    border-radius: 4px;
-    background-color: #4caf50;
-    color: #ffffff;
-    font-size: 16px;
-    cursor: pointer;
+.form-input {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 2px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  background: white;
 }
 
-.login-signup-card .switch-option {
-    text-align: center;
-    margin-top: 20px;
+.form-input:focus {
+  outline: none;
+  border-color: var(--primary-500);
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+}
+
+.form-input:invalid {
+  border-color: var(--error-300);
+}
+
+.avatar-upload {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.avatar-upload input[type="file"] {
+  flex: 1;
+}
+
+.avatar-preview {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--gray-200);
+  flex-shrink: 0;
+}
+
+.avatar-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 1rem;
+  background: linear-gradient(135deg, var(--primary-600) 0%, var(--secondary-600) 100%);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: 1.5rem;
+}
+
+.submit-button:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-lg);
+}
+
+.submit-button:active {
+  transform: translateY(0);
+}
+
+.submit-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  margin: 1.5rem 0;
+  color: var(--gray-500);
+  font-size: 0.875rem;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--gray-300);
+}
+
+.divider span {
+  padding: 0 1rem;
+  background: white;
+}
+
+.google-auth {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
 }
 
 .switch-option {
-    text-align: center;
-    margin-top: 20px;
+  text-align: center;
+  color: var(--gray-600);
+  font-size: 0.9rem;
 }
 
-.login-signup-card .switch-option a {
-    background-color: transparent;
-    border: none;
-    color: #4caf50;
-    font-size: 17px;
-    margin-left: 4px;
-    cursor: pointer;
-    text-decoration: none;
+.switch-option a {
+  color: var(--primary-600);
+  text-decoration: none;
+  font-weight: 500;
+  margin-left: 0.25rem;
+  transition: color 0.2s ease;
 }
 
-.login-signup-card .forgot-password {
-    text-align: center;
-    margin-top: 10px;
+.switch-option a:hover {
+  color: var(--primary-700);
+  text-decoration: underline;
 }
 
-.login-signup-card .forgot-password button {
-    background-color: transparent;
-    border: none;
-    color: #4caf50;
-    font-size: 14px;
-    cursor: pointer;
+.forgot-password {
+  text-align: center;
+  margin-top: 1rem;
 }
 
-.login-signup-card .forgot-password-form {
-    margin-top: 20px;
+.forgot-password button {
+  background: none;
+  border: none;
+  color: var(--primary-600);
+  font-size: 0.875rem;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.2s ease;
 }
 
-.login-signup-card .forgot-password-form p {
-    margin-bottom: 10px;
+.forgot-password button:hover {
+  color: var(--primary-700);
 }
 
-.login-signup-card .back-to-login {
-    margin-top: 20px;
-    text-align: center;
+.forgot-password-form {
+  animation: fadeIn 0.3s ease-out;
 }
 
-.login-signup-card .back-to-login button {
-    background-color: transparent;
-    border: none;
-    color: #4caf50;
-    font-size: 14px;
-    cursor: pointer;
+.forgot-password-form h2 {
+  color: var(--gray-800);
+  margin-bottom: 0.5rem;
 }
 
-.login-signup-card .google-auth {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
+.forgot-password-form p {
+  color: var(--gray-600);
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
 }
 
-.login-signup-card .center-wrapper {
-    display: flex;
-    align-items: center;
+.back-to-login {
+  text-align: center;
+  margin-top: 1rem;
 }
 
-.login-signup-card .loader {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+.back-to-login a {
+  color: var(--primary-600);
+  text-decoration: none;
+  font-size: 0.875rem;
+  transition: color 0.2s ease;
 }
 
-.login-signup-card .avatar-upload {
-    display: flex;
-    align-items: center;
+.back-to-login a:hover {
+  color: var(--primary-700);
+  text-decoration: underline;
 }
 
-.login-signup-card .avatar-preview {
-    width: 60px;
-    height: 60px;
-    margin-left: 10px;
+.loader {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: var(--gray-50);
 }
 
-.login-signup-card .avatar-preview img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 40%;
+.loading-spinner {
+  width: 3rem;
+  height: 3rem;
+  border: 3px solid var(--gray-200);
+  border-top: 3px solid var(--primary-500);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+.loading-text {
+  color: var(--gray-600);
+  font-weight: 500;
+}
+
+/* Form Validation Styles */
+.form-input.error {
+  border-color: var(--error-500);
+  background-color: var(--error-50);
+}
+
+.form-input.success {
+  border-color: var(--success-500);
+  background-color: var(--success-50);
+}
+
+.error-message {
+  color: var(--error-600);
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.success-message {
+  color: var(--success-600);
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .login-signup-container {
+    padding: 1rem;
+  }
+  
+  .login-signup-card {
+    max-width: 100%;
+  }
+  
+  .form-header {
+    padding: 1.5rem;
+  }
+  
+  .form-header h2 {
+    font-size: 1.5rem;
+  }
+  
+  .form-content {
+    padding: 1.5rem;
+  }
+  
+  .avatar-upload {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .avatar-preview {
+    align-self: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-header {
+    padding: 1rem;
+  }
+  
+  .form-content {
+    padding: 1rem;
+  }
+  
+  .form-header h2 {
+    font-size: 1.25rem;
+  }
+}
+
+/* Animation for form transitions */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
