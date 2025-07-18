@@ -1,53 +1,76 @@
 .footer {
   background: linear-gradient(135deg, var(--gray-900) 0%, var(--gray-800) 100%);
   color: white;
-  padding: 4rem 0 2rem;
+  padding: var(--spacing-5xl) 0 var(--spacing-xl);
   margin-top: auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  z-index: 1;
 }
 
 .footer-content {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 var(--spacing-xl);
+  position: relative;
+  z-index: 2;
 }
 
 .footer-main {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: 3rem;
-  margin-bottom: 3rem;
+  gap: var(--spacing-3xl);
+  margin-bottom: var(--spacing-3xl);
 }
 
 .footer-section h3 {
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: var(--spacing-xl);
   color: white;
+  background: linear-gradient(135deg, #ffffff, var(--gray-200));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .footer-section h4 {
-  font-size: 1.125rem;
+  font-size: 1.25rem;
   font-weight: 600;
-  margin-bottom: 1rem;
+  margin-bottom: var(--spacing-lg);
   color: var(--gray-300);
 }
 
 .footer-brand {
-  max-width: 350px;
+  max-width: 400px;
 }
 
 .footer-brand .brand-logo {
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--primary-400);
-  margin-bottom: 1rem;
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--primary-400), var(--secondary-400));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: var(--spacing-lg);
   display: block;
 }
 
 .footer-brand p {
   color: var(--gray-400);
-  line-height: 1.6;
-  margin-bottom: 1.5rem;
+  line-height: 1.7;
+  margin-bottom: var(--spacing-xl);
+  font-size: 1.125rem;
 }
 
 .footer-links {
@@ -57,92 +80,111 @@
 }
 
 .footer-links li {
-  margin-bottom: 0.75rem;
+  margin-bottom: var(--spacing-md);
 }
 
 .footer-links a {
   color: var(--gray-400);
   text-decoration: none;
-  transition: color 0.2s ease;
-  font-size: 0.9rem;
+  transition: all var(--transition-fast);
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-xs) 0;
 }
 
 .footer-links a:hover {
   color: var(--primary-400);
+  transform: translateX(4px);
 }
 
 .app-download {
   display: flex;
-  gap: 1rem;
-  margin-top: 1rem;
+  gap: var(--spacing-lg);
+  margin-top: var(--spacing-lg);
 }
 
 .app-download img {
-  height: 40px;
-  border-radius: var(--radius-md);
-  transition: transform 0.2s ease;
+  height: 48px;
+  border-radius: var(--radius-lg);
+  transition: all var(--transition-fast);
   cursor: pointer;
+  box-shadow: var(--shadow-md);
 }
 
 .app-download img:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
 }
 
 .social-links {
   display: flex;
-  gap: 1rem;
-  margin-top: 1rem;
+  gap: var(--spacing-lg);
+  margin-top: var(--spacing-lg);
 }
 
 .social-link {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  background: var(--gray-800);
+  width: 3rem;
+  height: 3rem;
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 50%;
   color: var(--gray-400);
   text-decoration: none;
-  transition: all 0.2s ease;
+  transition: all var(--transition-fast);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .social-link:hover {
   background: var(--primary-600);
   color: white;
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary-500);
 }
 
 .newsletter {
-  background: var(--gray-800);
-  padding: 2rem;
-  border-radius: var(--radius-lg);
-  margin-bottom: 2rem;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  padding: var(--spacing-2xl);
+  border-radius: var(--radius-2xl);
+  margin-bottom: var(--spacing-2xl);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .newsletter h4 {
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--spacing-sm);
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 700;
 }
 
 .newsletter p {
-  color: var(--gray-400);
-  margin-bottom: 1.5rem;
-  font-size: 0.9rem;
+  color: var(--gray-300);
+  margin-bottom: var(--spacing-xl);
+  font-size: 1rem;
+  line-height: 1.6;
 }
 
 .newsletter-form {
   display: flex;
-  gap: 0.75rem;
+  gap: var(--spacing-md);
 }
 
 .newsletter-input {
   flex: 1;
-  padding: 0.75rem 1rem;
-  border: 1px solid var(--gray-600);
-  border-radius: var(--radius-md);
-  background: var(--gray-700);
+  padding: var(--spacing-md) var(--spacing-lg);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-xl);
+  background: rgba(255, 255, 255, 0.1);
   color: white;
-  font-size: 0.9rem;
+  font-size: 0.9375rem;
+  backdrop-filter: blur(10px);
+  transition: all var(--transition-fast);
 }
 
 .newsletter-input::placeholder {
@@ -151,72 +193,101 @@
 
 .newsletter-input:focus {
   outline: none;
-  border-color: var(--primary-500);
-  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+  border-color: var(--primary-400);
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.2);
+  background: rgba(255, 255, 255, 0.15);
 }
 
 .newsletter-btn {
-  padding: 0.75rem 1.5rem;
-  background: var(--primary-600);
+  padding: var(--spacing-md) var(--spacing-xl);
+  background: linear-gradient(135deg, var(--primary-600), var(--primary-700));
   color: white;
   border: none;
-  border-radius: var(--radius-md);
-  font-weight: 500;
+  border-radius: var(--radius-xl);
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: all var(--transition-fast);
   white-space: nowrap;
+  box-shadow: var(--shadow-md);
 }
 
 .newsletter-btn:hover {
-  background: var(--primary-700);
+  background: linear-gradient(135deg, var(--primary-700), var(--primary-800));
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
 }
 
 .footer-bottom {
-  border-top: 1px solid var(--gray-700);
-  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: var(--spacing-xl);
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: var(--spacing-lg);
 }
 
 .footer-bottom p {
   color: var(--gray-400);
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
   margin: 0;
 }
 
 .payment-methods {
   display: flex;
-  gap: 0.75rem;
+  gap: var(--spacing-md);
   align-items: center;
 }
 
 .payment-methods span {
   color: var(--gray-400);
-  font-size: 0.875rem;
-  margin-right: 0.5rem;
+  font-size: 0.9375rem;
+  margin-right: var(--spacing-sm);
 }
 
 .payment-icon {
-  width: 2rem;
-  height: 1.25rem;
+  width: 2.5rem;
+  height: 1.75rem;
   background: white;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--gray-700);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-fast);
+}
+
+.payment-icon:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Enhanced visual elements */
+.footer-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background: linear-gradient(135deg, var(--primary-500), var(--secondary-500));
+  border-radius: var(--radius-full);
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+.footer-section:hover::before {
+  opacity: 1;
 }
 
 /* Responsive Design */
 @media (max-width: 1024px) {
   .footer-main {
     grid-template-columns: 1fr 1fr;
-    gap: 2rem;
+    gap: var(--spacing-2xl);
   }
   
   .footer-brand {
@@ -226,17 +297,17 @@
 
 @media (max-width: 768px) {
   .footer {
-    padding: 3rem 0 1.5rem;
+    padding: var(--spacing-3xl) 0 var(--spacing-lg);
   }
   
   .footer-content {
-    padding: 0 1rem;
+    padding: 0 var(--spacing-lg);
   }
   
   .footer-main {
     grid-template-columns: 1fr;
-    gap: 2rem;
-    margin-bottom: 2rem;
+    gap: var(--spacing-xl);
+    margin-bottom: var(--spacing-xl);
   }
   
   .newsletter-form {
@@ -250,7 +321,7 @@
   .footer-bottom {
     flex-direction: column;
     text-align: center;
-    gap: 1rem;
+    gap: var(--spacing-md);
   }
   
   .payment-methods {
@@ -268,7 +339,15 @@
 
 @media (max-width: 480px) {
   .footer {
-    padding: 2rem 0 1rem;
+    padding: var(--spacing-xl) 0 var(--spacing-md);
+  }
+  
+  .footer-content {
+    padding: 0 var(--spacing-md);
+  }
+  
+  .newsletter {
+    padding: var(--spacing-lg);
   }
   
   .app-download {
@@ -277,6 +356,65 @@
   }
   
   .app-download img {
-    height: 35px;
+    height: 40px;
+  }
+  
+  .social-links {
+    gap: var(--spacing-md);
+  }
+  
+  .social-link {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  .footer-links a:hover,
+  .social-link:hover,
+  .newsletter-btn:hover,
+  .app-download img:hover,
+  .payment-icon:hover {
+    transform: none;
+  }
+}
+
+/* Focus states for keyboard navigation */
+.footer-links a:focus,
+.social-link:focus,
+.newsletter-input:focus,
+.newsletter-btn:focus {
+  outline: 2px solid var(--primary-400);
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .footer {
+    background: var(--gray-900);
+    border-top: 3px solid white;
+  }
+  
+  .newsletter {
+    border: 2px solid white;
+  }
+  
+  .social-link {
+    border: 2px solid white;
+  }
+}
+
+/* Print styles */
+@media print {
+  .footer {
+    background: white;
+    color: black;
+  }
+  
+  .newsletter,
+  .social-links,
+  .app-download {
+    display: none;
   }
 }
